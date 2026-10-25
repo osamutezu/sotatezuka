@@ -55,5 +55,63 @@ quad([proj(left,cy-.1,z1),proj(right,cy-.1,z1),proj(right,cy-.1,z2),proj(left,cy
 quad([proj(left,cy-.085,z1),proj(right,cy-.085,z1),proj(right,cy-.085,z2),proj(left,cy-.085,z2)],'#fff');
 let p=proj(x,cy-.09,z);if(p){let radius=Math.min(30,65/dz);let g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,radius*2);g.addColorStop(0,'rgba(245,245,235,.14)');g.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,radius*2,0,Math.PI*2);ctx.fill()}}
 function lights(){const spacing=11;let first=Math.floor((depth-6)/spacing)*spacing;for(let z=first+spacing;z<depth+125;z+=spacing){lightFixture(z,-4.3);lightFixture(z,4.3)}}
-function draw(){depth+=(target-depth)*.095;ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);surfaces();const tile=.75;const start=Math.floor(depth/tile)*tile;for(let z=start+tile;z<depth+110;z+=tile){for(let side of [-1,1]){line(proj(side*9,-6,z),proj(side*9,6,z),'#c7c7c7',.55);line(proj(-9,-6,z),proj(9,-6,z),'#c7c7c7',.55);line(proj(-9,6,z),proj(9,6,z),'#c7c7c7',.55)}}for(let x=-9;x<=9;x+=tile){line(proj(x,-6,depth+.9),proj(x,-6,depth+110),'#c7c7c7',.55);line(proj(x,6,depth+.9),proj(x,6,depth+110),'#c7c7c7',.55)}for(let y=-6;y<=6;y+=tile){line(proj(-9,y,depth+.9),proj(-9,y,depth+110),'#c7c7c7',.55);line(proj(9,y,depth+.9),proj(9,y,depth+110),'#c7c7c7',.55)}glazeHighlights();ceramicReflections();lights();for(const work of works){let dz=work.z-depth;if(dz<1||dz>175)continue;let r=rect3(work.x,work.y,work.z,work.w,work.h);if(!r)continue;ctx.fillStyle='#fff';ctx.fillRect(r.x,r.y,r.w,r.h);ctx.strokeStyle='#888';ctx.lineWidth=.85;ctx.strokeRect(r.x,r.y,r.w,r.h);const size=Math.max(7,Math.min(21,13*r.w/180));ctx.save();ctx.beginPath();ctx.rect(r.x,r.y,r.w,r.h);ctx.clip();ctx.fillStyle='#222';ctx.font=`${size}px Arial`;ctx.fillText(work.title,r.x+Math.max(5,r.w*.07),r.y+Math.max(13,r.h*.18));ctx.fillStyle='#888';ctx.font=`${Math.max(6,size*.65)}px Arial`;ctx.fillText(work.sub,r.x+Math.max(5,r.w*.07),r.y+Math.max(24,r.h*.3));ctx.strokeStyle='#ddd';ctx.beginPath();ctx.moveTo(r.x+r.w*.07,r.y+r.h*.8);ctx.lineTo(r.x+r.w*.93,r.y+r.h*.8);ctx.stroke();ctx.restore()}document.getElementById('counter').textContent='Z '+depth.toFixed(1).padStart(5,'0');requestAnimationFrame(draw)}draw();addEventListener('wheel',e=>{e.preventDefault();target=Math.max(0,Math.min(maxDepth,target+e.deltaY*.035))},{passive:false});addEventListener('touchstart',e=>{dragY=e.touches[0].clientY},{passive:true});addEventListener('touchmove',e=>{if(dragY===null)return;e.preventDefault();let y=e.touches[0].clientY;target=Math.max(0,Math.min(maxDepth,target+(dragY-y)*.08));dragY=y},{passive:false});addEventListener('touchend',()=>dragY=null);addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){target=Math.max(0,Math.min(maxDepth,target+(e.key==='ArrowDown'?8:-8)))}});
+function draw(){if(window.__threeActive)return;depth+=(target-depth)*.095;ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);surfaces();const tile=.75;const start=Math.floor(depth/tile)*tile;for(let z=start+tile;z<depth+110;z+=tile){for(let side of [-1,1]){line(proj(side*9,-6,z),proj(side*9,6,z),'#c7c7c7',.55);line(proj(-9,-6,z),proj(9,-6,z),'#c7c7c7',.55);line(proj(-9,6,z),proj(9,6,z),'#c7c7c7',.55)}}for(let x=-9;x<=9;x+=tile){line(proj(x,-6,depth+.9),proj(x,-6,depth+110),'#c7c7c7',.55);line(proj(x,6,depth+.9),proj(x,6,depth+110),'#c7c7c7',.55)}for(let y=-6;y<=6;y+=tile){line(proj(-9,y,depth+.9),proj(-9,y,depth+110),'#c7c7c7',.55);line(proj(9,y,depth+.9),proj(9,y,depth+110),'#c7c7c7',.55)}glazeHighlights();ceramicReflections();lights();for(const work of works){let dz=work.z-depth;if(dz<1||dz>175)continue;let r=rect3(work.x,work.y,work.z,work.w,work.h);if(!r)continue;ctx.fillStyle='#fff';ctx.fillRect(r.x,r.y,r.w,r.h);ctx.strokeStyle='#888';ctx.lineWidth=.85;ctx.strokeRect(r.x,r.y,r.w,r.h);const size=Math.max(7,Math.min(21,13*r.w/180));ctx.save();ctx.beginPath();ctx.rect(r.x,r.y,r.w,r.h);ctx.clip();ctx.fillStyle='#222';ctx.font=`${size}px Arial`;ctx.fillText(work.title,r.x+Math.max(5,r.w*.07),r.y+Math.max(13,r.h*.18));ctx.fillStyle='#888';ctx.font=`${Math.max(6,size*.65)}px Arial`;ctx.fillText(work.sub,r.x+Math.max(5,r.w*.07),r.y+Math.max(24,r.h*.3));ctx.strokeStyle='#ddd';ctx.beginPath();ctx.moveTo(r.x+r.w*.07,r.y+r.h*.8);ctx.lineTo(r.x+r.w*.93,r.y+r.h*.8);ctx.stroke();ctx.restore()}document.getElementById('counter').textContent='Z '+depth.toFixed(1).padStart(5,'0');requestAnimationFrame(draw)}draw();addEventListener('wheel',e=>{e.preventDefault();target=Math.max(0,Math.min(maxDepth,target+e.deltaY*.035));window.__setThreeTarget?.(target)},{passive:false});addEventListener('touchstart',e=>{dragY=e.touches[0].clientY},{passive:true});addEventListener('touchmove',e=>{if(dragY===null)return;e.preventDefault();let y=e.touches[0].clientY;target=Math.max(0,Math.min(maxDepth,target+(dragY-y)*.08));window.__setThreeTarget?.(target);dragY=y},{passive:false});addEventListener('touchend',()=>dragY=null);addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){target=Math.max(0,Math.min(maxDepth,target+(e.key==='ArrowDown'?8:-8)));window.__setThreeTarget?.(target)}});
+</script><script type="module">
+// Progressive enhancement: the original 2D portfolio remains functional if WebGL/CDN fails.
+try {
+ const THREE=await import('https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js');
+ const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference:'high-performance'});
+ renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7));renderer.setSize(innerWidth,innerHeight);
+ renderer.outputColorSpace=THREE.SRGBColorSpace;
+ renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.6;
+ renderer.domElement.style.cssText='position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0';
+ document.body.insertBefore(renderer.domElement,document.getElementById('scene'));
+ const scene=new THREE.Scene();scene.background=new THREE.Color(0xffffff);scene.fog=new THREE.Fog(0xffffff,48,115);
+ const camera=new THREE.PerspectiveCamera(77,innerWidth/innerHeight,.12,140);
+ camera.position.set(0,0,0);camera.lookAt(0,0,1);
+ const ambient=new THREE.HemisphereLight(0xffffff,0xe3e4e6,2.4);scene.add(ambient);
+ const directional=new THREE.DirectionalLight(0xffffff,1.4);directional.position.set(-3,5,12);scene.add(directional);
+ // Generated ceramic tile texture: fine grout, subtle glaze mottling, faint highlight.
+ const texCanvas=document.createElement('canvas');texCanvas.width=512;texCanvas.height=512;
+ const tc=texCanvas.getContext('2d');tc.fillStyle='#d0d0d0';tc.fillRect(0,0,512,512);
+ const tiles=8,step=512/tiles;
+ for(let y=0;y<tiles;y++)for(let x=0;x<tiles;x++){
+   const v=246+Math.floor(6*(.5+.5*Math.sin(x*21.1+y*13.7)));
+   tc.fillStyle=`rgb(${v},${v},${Math.min(255,v+1)})`;
+   tc.fillRect(x*step+1.6,y*step+1.6,step-3.2,step-3.2);
+   const g=tc.createLinearGradient(x*step,y*step,(x+1)*step,(y+1)*step);
+   g.addColorStop(0,'rgba(255,255,255,.28)');g.addColorStop(.5,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(200,205,210,.055)');
+   tc.fillStyle=g;tc.fillRect(x*step+2,y*step+2,step-4,step-4);
+ }
+ const texture=new THREE.CanvasTexture(texCanvas);texture.wrapS=texture.wrapT=THREE.RepeatWrapping;
+ texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+ const material=new THREE.MeshPhysicalMaterial({map:texture,color:0xffffff,roughness:.23,metalness:0,clearcoat:.66,clearcoatRoughness:.19,side:THREE.DoubleSide});
+ function surface(w,h,x,y,z,rx,ry,repx,repy){let m=material.clone();m.map=texture.clone();m.map.repeat.set(repx,repy);m.map.needsUpdate=true;let mesh=new THREE.Mesh(new THREE.PlaneGeometry(w,h),m);mesh.position.set(x,y,z);mesh.rotation.set(rx,ry,0);scene.add(mesh);return mesh}
+ // Corridor spans z=0..235; square 0.75-unit tiles.
+ surface(18,235,0,-6,117.5,-Math.PI/2,0,24,313.333);
+ surface(18,235,0,6,117.5,Math.PI/2,0,24,313.333);
+ surface(235,12,-9,0,117.5,0,Math.PI/2,313.333,16);
+ surface(235,12,9,0,117.5,0,-Math.PI/2,313.333,16);
+ const box=(w,h,d,mat,x,y,z)=>{let m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);scene.add(m);return m};
+ const cableMat=new THREE.MeshStandardMaterial({color:0x777777,metalness:.65,roughness:.35});
+ const housingMat=new THREE.MeshStandardMaterial({color:0xc3c6c8,metalness:.55,roughness:.3});
+ const lightMat=new THREE.MeshBasicMaterial({color:0xffffff});
+ const glowMat=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.12,depthWrite:false});
+ const fixtures=[];
+ for(let z=9;z<225;z+=11)for(let x of [-4.3,4.3]){
+   const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);fixtures.push(g);
+   const make=(w,h,d,mat,y,zz)=>{let o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);o.position.set(0,y,zz);g.add(o)};
+   make(.33,.16,5.2,housingMat,5.05,0);make(.27,.055,5.12,lightMat,4.94,0);
+   for(let zz of [-2.05,2.05])make(.014,.9,.014,cableMat,5.56,zz);
+   // Grounded approximation of luminaire reflections (no heavy real-time ray tracing).
+   make(.35,.006,4.3,glowMat,-5.986,0);
+   if(z%22===9){let point=new THREE.PointLight(0xf5f8ff,4,13,2);point.position.set(0,4.8,0);g.add(point)}
+ }
+ const workData=[{z:19,x:-5.2,y:1.6,w:4.6,h:3.2,title:'01 / ARCHITECTURE',sub:'Selected work — 2026'},{z:37,x:5.4,y:-1.1,w:4.3,h:5.2,title:'02 / RESEARCH',sub:'Studies & experiments'},{z:59,x:-5.7,y:-1.4,w:5.2,h:3.7,title:'03 / PHOTOGRAPHY',sub:'Image archive'},{z:80,x:4.5,y:2.3,w:5.3,h:3.5,title:'04 / OBJECTS',sub:'Material & form'},{z:108,x:-4.5,y:2,w:5,h:4,title:'05 / DRAWINGS',sub:'Plans & diagrams'},{z:135,x:4.3,y:-1.8,w:4.7,h:4.1,title:'06 / ABOUT',sub:'Profile & contact'},{z:165,x:0,y:0,w:5.5,h:3.2,title:'07 / INDEX',sub:'Spatial archive'}];
+ for(const w of workData){const c=document.createElement('canvas');c.width=768;c.height=512;const t=c.getContext('2d');t.fillStyle='#fff';t.fillRect(0,0,768,512);t.strokeStyle='#b3b3b3';t.lineWidth=3;t.strokeRect(3,3,762,506);t.fillStyle='#171717';t.font='30px Arial';t.fillText(w.title,50,96);t.fillStyle='#777';t.font='22px Arial';t.fillText(w.sub,50,145);t.strokeStyle='#d6d6d6';t.beginPath();t.moveTo(50,422);t.lineTo(715,422);t.stroke();let map=new THREE.CanvasTexture(c);map.colorSpace=THREE.SRGBColorSpace;let panel=new THREE.Mesh(new THREE.PlaneGeometry(w.w,w.h),new THREE.MeshBasicMaterial({map,side:THREE.DoubleSide}));panel.position.set(w.x,w.y,w.z);scene.add(panel)}
+ let current=0,desired=0;window.__setThreeTarget=v=>desired=v;
+ function resizeThree(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7))}addEventListener('resize',resizeThree);
+ window.__threeActive=true;document.getElementById('scene').style.display='none';
+ function frame(){current+=(desired-current)*.095;camera.position.z=current;document.getElementById('counter').textContent='Z '+current.toFixed(1).padStart(5,'0');renderer.render(scene,camera);requestAnimationFrame(frame)}frame();
+} catch(error){console.warn('3D renderer unavailable; original 2D version remains active.',error)}
 </script></body></html>
