@@ -47,10 +47,10 @@ function glazeHighlights(){
  }
  ctx.restore();
 }
-function lightFixture(z,x){let dz=z-depth;if(dz<1.4||dz>120)return;const cy=5.05,top=6,half=.16,len=5.2;const left=x-half,right=x+half,z1=z-len/2,z2=z+len/2;if(z1-depth<.65)return;
+function lightFixture(z,x){let dz=z-depth;if(dz<1.4||dz>120)return;const cy=5.05,top=6,half=.09,len=5.2;const left=x-half,right=x+half,z1=z-len/2,z2=z+len/2;if(z1-depth<.65)return;
 // Thin suspension cables follow the same 3D perspective as the tiles.
-for(let zz of [z1+.4,z2-.4])line(proj(x,top,zz),proj(x,cy+.13,zz),'#989898',Math.max(.45,Math.min(1.1,3/dz)));
-quad([proj(left,cy+.12,z1),proj(right,cy+.12,z1),proj(right,cy+.12,z2),proj(left,cy+.12,z2)],'#a7a7a7');
+for(let zz of [z1+.4,z2-.4])line(proj(x,top,zz),proj(x,cy+.13,zz),'#b4b4b4',Math.max(.35,Math.min(.65,1.7/dz)));
+quad([proj(left,cy+.12,z1),proj(right,cy+.12,z1),proj(right,cy+.12,z2),proj(left,cy+.12,z2)],'#d3d3d3');
 quad([proj(left,cy-.1,z1),proj(right,cy-.1,z1),proj(right,cy-.1,z2),proj(left,cy-.1,z2)],'#f8f8f8');
 quad([proj(left,cy-.085,z1),proj(right,cy-.085,z1),proj(right,cy-.085,z2),proj(left,cy-.085,z2)],'#fff');
 let p=proj(x,cy-.09,z);if(p){let radius=Math.min(30,65/dz);let g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,radius*2);g.addColorStop(0,'rgba(245,245,235,.14)');g.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,radius*2,0,Math.PI*2);ctx.fill()}}
@@ -95,7 +95,7 @@ try {
  for(let y=0;y<64;y+=2)for(let x=0;x<64;x+=2){const shade=5+8*Math.sin(x*.09+y*.065)+6*Math.cos(x*.17-y*.08);if(bayer[(y/2)%4][(x/2)%4]<shade){pc.fillStyle='#6b6b6b';pc.fillRect(x,y,2,2)}}
  const pixelMap=new THREE.CanvasTexture(pattern);pixelMap.magFilter=THREE.NearestFilter;pixelMap.minFilter=THREE.NearestFilter;pixelMap.colorSpace=THREE.SRGBColorSpace;
  const housingMat=new THREE.MeshBasicMaterial({color:0xffffff});
- const darkMat=new THREE.LineBasicMaterial({color:0x555555});
+ const darkMat=new THREE.LineBasicMaterial({color:0xb0b0b0,transparent:true,opacity:.72});
  const glowMat=new THREE.MeshBasicMaterial({map:pixelMap,transparent:true,opacity:.18,depthWrite:false,side:THREE.DoubleSide});
  function outlineBox(w,h,d,x,y,z,parent){
   const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),housingMat);mesh.position.set(x,y,z);parent.add(mesh);
@@ -105,17 +105,17 @@ try {
  const fixtures=[];
  for(let z=9;z<225;z+=11)for(let x of [-4.3,4.3]){
   const group=new THREE.Group();group.position.set(x,0,z);scene.add(group);fixtures.push(group);
-  outlineBox(.34,.14,5.2,0,5.05,0,group);
-  outlineBox(.25,.025,5.08,0,4.96,0,group);
+  outlineBox(.19,.09,5.2,0,5.05,0,group);
+  outlineBox(.15,.018,5.08,0,4.99,0,group);
   for(const dz of [-2.05,2.05])cable(0,5.13,6,dz,group);
-  const glow=new THREE.Mesh(new THREE.PlaneGeometry(.72,5.3),glowMat);
+  const glow=new THREE.Mesh(new THREE.PlaneGeometry(.40,5.3),glowMat);
   glow.rotation.x=-Math.PI/2;glow.position.set(0,4.92,0);group.add(glow);
  }
  const workData=[{z:19,x:-5.2,y:1.6,w:4.6,h:3.2,title:'01 / ARCHITECTURE',sub:'Selected work — 2026'},{z:37,x:5.4,y:-1.1,w:4.3,h:5.2,title:'02 / RESEARCH',sub:'Studies & experiments'},{z:59,x:-5.7,y:-1.4,w:5.2,h:3.7,title:'03 / PHOTOGRAPHY',sub:'Image archive'},{z:80,x:4.5,y:2.3,w:5.3,h:3.5,title:'04 / OBJECTS',sub:'Material & form'},{z:108,x:-4.5,y:2,w:5,h:4,title:'05 / DRAWINGS',sub:'Plans & diagrams'},{z:135,x:4.3,y:-1.8,w:4.7,h:4.1,title:'06 / ABOUT',sub:'Profile & contact'},{z:165,x:0,y:0,w:5.5,h:3.2,title:'07 / INDEX',sub:'Spatial archive'}];
  for(const w of workData){const c=document.createElement('canvas');c.width=768;c.height=512;const t=c.getContext('2d');t.fillStyle='#fff';t.fillRect(0,0,768,512);t.strokeStyle='#333';t.lineWidth=3;t.strokeRect(3,3,762,506);
   // Halftone study field, drawn as crisp square pixels using ordered dithering.
   for(let py=185;py<425;py+=6)for(let px=48;px<720;px+=6){let v=8+5*Math.sin(px*.018+py*.023+w.z*.07)+3*Math.cos(px*.041-py*.027);if(bayer[(py/6|0)%4][(px/6|0)%4]<v){t.fillStyle='#777';t.fillRect(px,py,5,5)}}
-  t.fillStyle='#111';t.font='30px monospace';t.fillText(w.title,46,75);t.fillStyle='#666';t.font='20px monospace';t.fillText(w.sub,46,112);t.fillStyle='#777';t.font='15px monospace';t.fillText('STUDY / '+String(w.z).padStart(3,'0'),48,465);let map=new THREE.CanvasTexture(c);map.colorSpace=THREE.SRGBColorSpace;map.magFilter=THREE.NearestFilter;let panel=new THREE.Mesh(new THREE.PlaneGeometry(w.w,w.h),new THREE.MeshBasicMaterial({map,side:THREE.DoubleSide}));panel.position.set(w.x,w.y,w.z);scene.add(panel)}
+  t.fillStyle='#111';t.font='30px monospace';t.fillText(w.title,46,75);t.fillStyle='#666';t.font='20px monospace';t.fillText(w.sub,46,112);t.fillStyle='#777';t.font='15px monospace';t.fillText('STUDY / '+String(w.z).padStart(3,'0'),48,465);let map=new THREE.CanvasTexture(c);map.colorSpace=THREE.SRGBColorSpace;map.magFilter=THREE.NearestFilter;let panel=new THREE.Mesh(new THREE.PlaneGeometry(w.w,w.h),new THREE.MeshBasicMaterial({map,side:THREE.DoubleSide}));panel.rotation.y=Math.PI;panel.position.set(w.x,w.y,w.z);scene.add(panel)}
  let current=0,desired=0;window.__setThreeTarget=v=>desired=v;
  function resizeThree(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7))}addEventListener('resize',resizeThree);
  window.__threeActive=true;document.getElementById('scene').style.display='none';
