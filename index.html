@@ -134,7 +134,7 @@ try {
  for(let y=0;y<=1024;y+=64){wc.beginPath();wc.moveTo(0,y);wc.lineTo(1536,y);wc.stroke()}
  wc.fillStyle='#111';wc.textAlign='center';wc.font='bold 76px Arial, sans-serif';wc.fillText('UNDER CONSTRUCTION',768,485);
  wc.font='28px Arial, sans-serif';wc.fillStyle='#555';wc.fillText('THIS SITE IS CURRENTLY BEING DEVELOPED',768,550);
- const wallTex=new THREE.CanvasTexture(wallCanvas);wallTex.colorSpace=THREE.SRGBColorSpace;wallTex.repeat.x=-1;wallTex.offset.x=1;wallTex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+ const wallTex=new THREE.CanvasTexture(wallCanvas);wallTex.colorSpace=THREE.SRGBColorSpace;wallTex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
  const terminal=new THREE.Mesh(new THREE.PlaneGeometry(18,12),new THREE.MeshBasicMaterial({map:wallTex,side:THREE.DoubleSide,fog:false}));
  terminal.position.set(0,0,endWallZ);terminal.rotation.y=Math.PI;scene.add(terminal);
  const workData=[{z:19,x:-5.2,y:1.6,w:4.6,h:3.2,title:'01 / ARCHITECTURE',sub:'Selected work — 2026'},{z:37,x:5.4,y:-1.1,w:4.3,h:5.2,title:'02 / RESEARCH',sub:'Studies & experiments'},{z:59,x:-5.7,y:-1.4,w:5.2,h:3.7,title:'03 / PHOTOGRAPHY',sub:'Image archive'},{z:80,x:4.5,y:2.3,w:5.3,h:3.5,title:'04 / OBJECTS',sub:'Material & form'},{z:108,x:-4.5,y:2,w:5,h:4,title:'05 / DRAWINGS',sub:'Plans & diagrams'},{z:135,x:4.3,y:-1.8,w:4.7,h:4.1,title:'06 / ABOUT',sub:'Profile & contact'},{z:165,x:0,y:0,w:5.5,h:3.2,title:'07 / INDEX',sub:'Spatial archive'}];
