@@ -55,6 +55,36 @@
 @media(max-width:650px){
  .chart-layout{--side:24px;--toprow:54px;top:calc((100dvh - 40px)/2)}
 }
+
+/* Absolute placement on lattice intersections (not cell centres). */
+.chart-top,.chart-left,.chart-right{display:block;position:relative;padding:0}
+.chart-top span{position:absolute;top:50%;transform:translate(-50%,-50%);width:calc(100% / 11);height:100%;display:flex;align-items:center;justify-content:center}
+.chart-side-char{position:absolute;left:0;width:100%;height:calc(100% / 15);transform:translateY(-50%);display:flex;align-items:center;justify-content:center}
+.chart-side-char.left{transform:translateY(-50%)}
+/* Precise chart registration: all letters and hit targets use the SAME 11 × 15 lattice. */
+.chart-top{grid-template-columns:repeat(11,minmax(0,1fr));padding:0;align-items:stretch;justify-items:stretch;color:#111}
+.chart-top span{display:flex;align-items:center;justify-content:center;min-width:0}
+.chart-top span:first-child{grid-column:2}
+.chart-top .muted{color:#111}
+.chart-top .muted .glyph{opacity:1}
+.chart-left,.chart-right{grid-template-rows:repeat(15,minmax(0,1fr));padding:0;align-items:stretch;justify-items:stretch}
+.chart-side-char:first-child{grid-row:2}
+.chart-side-char{min-height:0;min-width:0}
+.chart-top .glyph{width:38%;height:48%;overflow:visible}
+.chart-side-char .glyph{width:44%;height:44%}
+.chart-grid{background:none;opacity:1}
+.chart-grid svg{display:block;width:100%;height:100%;overflow:visible}
+.chart-layout{--toprow:52px}
+@media(max-width:650px){.chart-layout{--toprow:45px}}
+
+.chart-top,.chart-left,.chart-right{display:block;position:relative;padding:0}
+.chart-top span{position:absolute;top:50%;transform:translate(-50%,-50%);width:calc(100% / 11);height:100%;display:flex;align-items:center;justify-content:center}
+.chart-side-char,.chart-side-char.left{position:absolute;left:0;width:100%;height:calc(100% / 15);transform:translateY(-50%);display:flex;align-items:center;justify-content:center}
+/* Frame hierarchy: the OUTER rule is the stronger one; the INNER rule recedes.
+   The three marginal letter rows share the same centre-to-frame offset. */
+.chart-layout{--side:clamp(35px,4vw,58px);--toprow:var(--side)}
+.chart-frame{box-shadow:inset 0 0 0 .55px #b8b8b8;outline:2px solid #777;outline-offset:clamp(4px,.55vw,7px)}
+@media(max-width:650px){.chart-layout{--side:32px;--toprow:var(--side)}.chart-frame{outline-offset:4px}}
 </style></head><body><section class="home" id="home" aria-label="Letter coordinate chart"><div class="chart-layout" id="chart-layout"><div class="chart-top" id="chart-top" aria-label="SOTEZUKA"></div><div class="chart-left" id="chart-left"></div><div class="chart-right" id="chart-right"></div><div class="chart-frame" id="coordinate-field"><div class="chart-grid" aria-hidden="true"></div><div class="chart-links" id="chart-links"></div></div></div><div class="chart-foot"><span>PROJECTS / ABOUT / CONTACT / STORE</span><span>SOT<span class="brand-muted">EZUK</span>A</span></div></section><div class="site" id="site"><header><h1><button class="back-home" id="back" type="button" aria-label="Return to homepage">SOTA TEZUKA</button></h1><small>SELECTED IMAGES / PORTFOLIO</small></header><main><div class="gallery" id="gallery"></div></main><footer><span>© SOTA TEZUKA</span><span id="count">12 IMAGES</span></footer><dialog id="lightbox" aria-label="Image viewer"><div class="viewer"><div class="viewer-head"><span>SOTA TEZUKA</span><button id="close" aria-label="Close">×</button></div><img class="viewer-image" id="viewer-image" alt=""><div class="viewer-foot"><span></span><div class="viewer-actions"><button id="prev" aria-label="Previous image">←</button><button id="next" aria-label="Next image">→</button></div></div></div></dialog></div>
 <section class="info-page" id="about" aria-label="About"><a class="return" href="#">← INDEX</a><h2>ABOUT</h2><p>SOTA TEZUKA</p><p>Profile content has not yet been supplied.</p></section><section class="info-page" id="store" aria-label="Store"><a class="return" href="#">← INDEX</a><h2>STORE</h2><p>Store content has not yet been supplied.</p></section><section class="info-page" id="contact" aria-label="Contact"><a class="return" href="#">← INDEX</a><h2>CONTACT</h2><p>Contact details have not yet been supplied.</p></section><script>(()=>{'use strict';
 const home=document.getElementById('home'),site=document.getElementById('site');
@@ -123,12 +153,34 @@ function letterGlyph(c){
  return svg;
 }
 
+// Draw grid lines at exact lattice coordinates rather than relying on repeating CSS backgrounds.
+const gridNode=document.querySelector('.chart-grid');
+const svgNS='http://www.w3.org/2000/svg';
+const gridSvg=document.createElementNS(svgNS,'svg');
+gridSvg.setAttribute('viewBox','0 0 1100 1500');
+gridSvg.setAttribute('preserveAspectRatio','none');
+gridSvg.setAttribute('aria-hidden','true');
+for(let i=1;i<11;i++){
+ const line=document.createElementNS(svgNS,'line');
+ line.setAttribute('x1',String(i*100));line.setAttribute('x2',String(i*100));
+ line.setAttribute('y1','0');line.setAttribute('y2','1500');
+ line.setAttribute('stroke','#e5e5e5');line.setAttribute('stroke-width','.85');line.setAttribute('vector-effect','non-scaling-stroke');
+ gridSvg.append(line);
+}
+for(let i=1;i<15;i++){
+ const line=document.createElementNS(svgNS,'line');
+ line.setAttribute('x1','0');line.setAttribute('x2','1100');
+ line.setAttribute('y1',String(i*100));line.setAttribute('y2',String(i*100));
+ line.setAttribute('stroke','#e5e5e5');line.setAttribute('stroke-width','.85');line.setAttribute('vector-effect','non-scaling-stroke');
+ gridSvg.append(line);
+}
+gridNode.replaceChildren(gridSvg);
 const topChars=['S','O','T','(','E','Z','U','K',')','A'];
 // Both side labels now read top-to-bottom; the asterisks remain separators.
 // The asterisks are separators, never missing-letter markers.
 const entries=[{name:'PROJECTS',side:'left',hash:'#projects'},{name:'ABOUT',side:'left',hash:'#about'},{name:'CONTACT',side:'right',hash:'#contact'},{name:'STORE',side:'right',hash:'#store'}];
 const top=document.getElementById('chart-top'),left=document.getElementById('chart-left'),right=document.getElementById('chart-right'),links=document.getElementById('chart-links');
-for(const c of topChars){const el=document.createElement('span');el.append(letterGlyph(c));el.setAttribute('aria-label',c);if('EZUK'.includes(c))el.className='muted';top.append(el)}
+for(const [i,c] of topChars.entries()){const el=document.createElement('span');el.style.left=((i+1)/11*100)+'%';el.append(letterGlyph(c));el.setAttribute('aria-label',c);top.append(el)}
 function randInt(max){if(window.crypto&&crypto.getRandomValues){const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%max}return Math.floor(Math.random()*max)}
 const leftSlots=[...('PROJECTS*ABOUT')]; // 14 positions, top-to-bottom
 const rightSlots=[...('*CONTACT*STORE')]; // 14 positions, top-to-bottom
@@ -151,7 +203,7 @@ const choices=entries.map(entry=>{
  const chosen=pool[randInt(pool.length)];used.add(chosen.x);return {...entry,...chosen};
 });
 function renderSide(target,slots,side){slots.forEach((char,i)=>{
- const el=document.createElement('span');el.className='chart-side-char '+side;
+ const el=document.createElement('span');el.className='chart-side-char '+side;el.style.top=((i+1)/15*100)+'%';
  const omitted=choices.some(p=>p.side===side&&p.y===i);
  if(omitted){el.classList.add('empty');el.textContent=' ';}else{el.append(letterGlyph(char==='*'?'*':char));el.setAttribute('aria-label',char);}
  target.append(el);
