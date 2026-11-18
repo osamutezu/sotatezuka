@@ -21,7 +21,6 @@
 .chart-side-char.empty{visibility:hidden}
 .chart-frame{grid-column:2;grid-row:2;position:relative;min-width:0;min-height:0;border:1px solid #858585;outline:1px solid #c2c2c2;outline-offset:clamp(5px,1vw,12px);background:#fff}
 .chart-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to right,#e7e7e7 .5px,transparent .5px),linear-gradient(to bottom,#e7e7e7 .5px,transparent .5px);background-size:calc(100% / 11) 100%,100% calc(100% / 15);background-position:0 0;opacity:.9}
-.chart-grid:after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent calc(50% - .25px),#e0e0e0 calc(50% - .25px),#e0e0e0 calc(50% + .25px),transparent calc(50% + .25px)),linear-gradient(to bottom,transparent calc(50% - .25px),#e0e0e0 calc(50% - .25px),#e0e0e0 calc(50% + .25px),transparent calc(50% + .25px))}
 .chart-links{position:absolute;inset:0}.coordinate-hotspot{position:absolute;transform:translate(-50%,-50%);display:block;width:clamp(22px,4vw,40px);height:clamp(22px,4vw,40px);background:transparent;border:0;cursor:crosshair;text-decoration:none}
 .coordinate-hotspot:focus-visible{outline:1px dashed #777;outline-offset:2px}.coordinate-hotspot .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .chart-foot{position:absolute;left:var(--edge,5vw);right:var(--edge,5vw);bottom:clamp(15px,2.6vh,28px);display:flex;justify-content:space-between;gap:12px;font:clamp(8px,.8vw,10px)/1.3 'Courier New',monospace;letter-spacing:.035em;color:#7d7d7d}.chart-foot span:last-child{white-space:nowrap}
@@ -70,9 +69,10 @@
 .chart-left,.chart-right{grid-template-rows:repeat(15,minmax(0,1fr));padding:0;align-items:stretch;justify-items:stretch}
 .chart-side-char:first-child{grid-row:2}
 .chart-side-char{min-height:0;min-width:0}
-.chart-top .glyph{width:38%;height:48%;overflow:visible}
+.chart-top .glyph{width:33%;height:42%;overflow:visible}
 .chart-side-char .glyph{width:44%;height:44%}
 .chart-grid{background:none;opacity:1}
+.chart-grid::after{content:none!important;display:none!important}
 .chart-grid svg{display:block;width:100%;height:100%;overflow:visible}
 .chart-layout{--toprow:52px}
 @media(max-width:650px){.chart-layout{--toprow:45px}}
