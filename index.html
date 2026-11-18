@@ -7,10 +7,29 @@
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 
 .home{position:fixed;inset:0;background:#fff;overflow:hidden}.coordinate-field{position:absolute;inset:68px 70px 107px;overflow:hidden;background:#fff;cursor:crosshair;border:1px solid #a5a5a5}.grid-background{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to right,#efefef .35px,transparent .35px),linear-gradient(to bottom,#efefef .35px,transparent .35px);background-position:var(--gx) var(--gy);background-size:var(--step) var(--step)}.axis{position:absolute;background:#dedede;pointer-events:none;opacity:.65}.axis-x{left:0;right:0;top:var(--cy);height:.35px}.axis-y{top:0;bottom:0;left:var(--cx);width:.35px}.coordinate-hotspot{position:absolute;z-index:2;display:block;border:0;background:transparent;width:var(--hit);height:var(--hit);transform:translate(-50%,-50%);cursor:pointer;border-radius:0}.coordinate-hotspot .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.coordinate-hotspot:focus-visible{outline:1px solid #888;outline-offset:0}.chart-marginalia{position:absolute;inset:0;pointer-events:none;font:10px/1.2 "Courier New",monospace;color:#6e6e6e;letter-spacing:.04em}.chart-note{position:absolute;white-space:nowrap}.chart-note--top{top:46px;left:70px}.chart-note--right{right:40px;top:50%;writing-mode:vertical-rl}.chart-note--left{left:40px;top:50%;writing-mode:vertical-rl;transform:rotate(180deg)}.chart-note--bottom{bottom:86px;right:70px}.coordinate-banner{position:fixed;bottom:0;left:0;right:0;min-height:47px;border-top:1px solid #e5e5e5;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:7px 20px;font:10px/1.6 'Courier New',monospace}.coordinate-index{display:flex;flex-wrap:wrap;column-gap:24px;row-gap:3px}.coordinate-index span{white-space:nowrap}.coordinate-banner .wordmark{white-space:nowrap;font-size:11px}.coordinate-banner .coordinate-index a{color:inherit;text-decoration:none}.coordinate-banner .coordinate-index a:hover{text-decoration:underline;text-underline-offset:2px}@media(max-width:650px){.coordinate-field{inset:50px 28px 121px}.chart-note--top{top:30px;left:28px}.chart-note--right{right:9px}.chart-note--left{left:9px}.chart-note--bottom{bottom:103px;right:28px}.chart-marginalia{font-size:9px}.coordinate-banner{min-height:65px;padding:7px 10px;font-size:9px;align-items:flex-start}.coordinate-field{bottom:65px}.coordinate-index{column-gap:12px}.coordinate-banner .wordmark{font-size:10px}}
-</style></head><body><section class="home" id="home" aria-label="Coordinate homepage"><div class="coordinate-field" id="coordinate-field"><div class="grid-background" id="grid-background"></div><div class="axis axis-x"></div><div class="axis axis-y"></div></div><div class="chart-marginalia" aria-hidden="true"><span class="chart-note chart-note--top" id="chart-range-x">X / —</span><span class="chart-note chart-note--left" id="chart-range-y">Y / —</span><span class="chart-note chart-note--right">COORDINATE FIELD</span><span class="chart-note chart-note--bottom">ORIGIN / 0,0</span></div><div class="coordinate-banner"><div class="coordinate-index" id="coordinate-index"></div><span class="wordmark">SOT<span class="brand-muted">EZUK</span>A</span></div></section><div class="site" id="site"><header><h1><button class="back-home" id="back" type="button" aria-label="Return to homepage">SOTA TEZUKA</button></h1><small>SELECTED IMAGES / PORTFOLIO</small></header><main><div class="gallery" id="gallery"></div></main><footer><span>© SOTA TEZUKA</span><span id="count">12 IMAGES</span></footer><dialog id="lightbox" aria-label="Image viewer"><div class="viewer"><div class="viewer-head"><span>SOTA TEZUKA</span><button id="close" aria-label="Close">×</button></div><img class="viewer-image" id="viewer-image" alt=""><div class="viewer-foot"><span></span><div class="viewer-actions"><button id="prev" aria-label="Previous image">←</button><button id="next" aria-label="Next image">→</button></div></div></div></dialog></div>
-<section class="info-page" id="about" aria-label="About"><a class="return" href="#">← INDEX</a><h2>ABOUT</h2><p>SOTA TEZUKA</p><p>Profile content has not yet been supplied.</p></section><section class="info-page" id="contact" aria-label="Contact"><a class="return" href="#">← INDEX</a><h2>CONTACT</h2><p>Contact details have not yet been supplied.</p></section><script>(()=>{'use strict';
+
+/* Letter chart: fourteen equal vertical slots, ten top slots. The gaps are actual empty cells. */
+.home{position:fixed;inset:0;background:#fff;overflow:hidden}
+.chart-layout{--edge:clamp(26px,5vw,75px);--topspace:clamp(48px,7.2vh,90px);--bottomspace:clamp(58px,7vh,82px);position:absolute;inset:var(--topspace) var(--edge) var(--bottomspace);display:grid;grid-template-columns:clamp(23px,3.4vw,46px) minmax(0,1fr) clamp(23px,3.4vw,46px);grid-template-rows:clamp(25px,4.3vh,46px) minmax(0,1fr);min-height:0}
+.chart-top{grid-column:2;grid-row:1;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));padding-inline:4.5454545%;align-items:center;justify-items:center;font-family:'Helvetica Neue',Arial,sans-serif;font-size:clamp(12px,2.1vw,29px);font-weight:300;letter-spacing:0;color:#151515}
+.chart-top span{width:100%;text-align:center;line-height:1}
+.chart-top .muted{color:#8c8c8c}
+.chart-left,.chart-right{grid-row:2;display:grid;grid-template-rows:repeat(14,minmax(0,1fr));padding-block:3.333333%;align-items:center;justify-items:center;font-family:'Helvetica Neue',Arial,sans-serif;font-size:clamp(11px,1.6vw,23px);font-weight:300;color:#181818}
+.chart-left{grid-column:1}.chart-right{grid-column:3}
+.chart-side-char{width:100%;height:100%;display:flex;align-items:center;justify-content:center;line-height:1;writing-mode:vertical-rl}
+.chart-side-char.left{transform:rotate(180deg)}
+.chart-side-char.empty{visibility:hidden}
+.chart-frame{grid-column:2;grid-row:2;position:relative;min-width:0;min-height:0;border:1px solid #858585;outline:1px solid #c2c2c2;outline-offset:clamp(5px,1vw,12px);background:#fff}
+.chart-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to right,#e7e7e7 .5px,transparent .5px),linear-gradient(to bottom,#e7e7e7 .5px,transparent .5px);background-size:calc(100% / 11) 100%,100% calc(100% / 15);background-position:0 0;opacity:.9}
+.chart-grid:after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent calc(50% - .25px),#e0e0e0 calc(50% - .25px),#e0e0e0 calc(50% + .25px),transparent calc(50% + .25px)),linear-gradient(to bottom,transparent calc(50% - .25px),#e0e0e0 calc(50% - .25px),#e0e0e0 calc(50% + .25px),transparent calc(50% + .25px))}
+.chart-links{position:absolute;inset:0}.coordinate-hotspot{position:absolute;transform:translate(-50%,-50%);display:block;width:clamp(22px,4vw,40px);height:clamp(22px,4vw,40px);background:transparent;border:0;cursor:crosshair;text-decoration:none}
+.coordinate-hotspot:focus-visible{outline:1px dashed #777;outline-offset:2px}.coordinate-hotspot .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.chart-foot{position:absolute;left:var(--edge,5vw);right:var(--edge,5vw);bottom:clamp(15px,2.6vh,28px);display:flex;justify-content:space-between;gap:12px;font:clamp(8px,.8vw,10px)/1.3 'Courier New',monospace;letter-spacing:.035em;color:#7d7d7d}.chart-foot span:last-child{white-space:nowrap}
+@media(max-width:650px){.chart-layout{--edge:17px;--topspace:clamp(64px,8vh,110px);--bottomspace:clamp(88px,10vh,130px);grid-template-columns:24px minmax(0,1fr) 24px;grid-template-rows:38px minmax(0,1fr)}.chart-top{font-size:clamp(12px,3.2vw,19px)}.chart-left,.chart-right{font-size:clamp(11px,3vw,17px)}.chart-frame{outline-offset:5px}.chart-foot{left:18px;right:18px;bottom:35px;font-size:8px}.chart-foot span:first-child{max-width:65%}}
+</style></head><body><section class="home" id="home" aria-label="Letter coordinate chart"><div class="chart-layout" id="chart-layout"><div class="chart-top" id="chart-top" aria-label="SOTEZUKA"></div><div class="chart-left" id="chart-left"></div><div class="chart-right" id="chart-right"></div><div class="chart-frame" id="coordinate-field"><div class="chart-grid" aria-hidden="true"></div><div class="chart-links" id="chart-links"></div></div></div><div class="chart-foot"><span>PROJECTS / ABOUT / CONTACT / STORE</span><span>SOT<span class="brand-muted">EZUK</span>A</span></div></section><div class="site" id="site"><header><h1><button class="back-home" id="back" type="button" aria-label="Return to homepage">SOTA TEZUKA</button></h1><small>SELECTED IMAGES / PORTFOLIO</small></header><main><div class="gallery" id="gallery"></div></main><footer><span>© SOTA TEZUKA</span><span id="count">12 IMAGES</span></footer><dialog id="lightbox" aria-label="Image viewer"><div class="viewer"><div class="viewer-head"><span>SOTA TEZUKA</span><button id="close" aria-label="Close">×</button></div><img class="viewer-image" id="viewer-image" alt=""><div class="viewer-foot"><span></span><div class="viewer-actions"><button id="prev" aria-label="Previous image">←</button><button id="next" aria-label="Next image">→</button></div></div></div></dialog></div>
+<section class="info-page" id="about" aria-label="About"><a class="return" href="#">← INDEX</a><h2>ABOUT</h2><p>SOTA TEZUKA</p><p>Profile content has not yet been supplied.</p></section><section class="info-page" id="store" aria-label="Store"><a class="return" href="#">← INDEX</a><h2>STORE</h2><p>Store content has not yet been supplied.</p></section><section class="info-page" id="contact" aria-label="Contact"><a class="return" href="#">← INDEX</a><h2>CONTACT</h2><p>Contact details have not yet been supplied.</p></section><script>(()=>{'use strict';
 const home=document.getElementById('home'),site=document.getElementById('site');
-function syncPage(){const route=location.hash.replace('#','');const showing=route==='works';home.classList.toggle('is-hidden',!!route);site.classList.toggle('is-visible',showing);for(const id of ['about','contact'])document.getElementById(id).classList.toggle('is-visible',route===id);document.title=(route?route.toUpperCase()+' — ':'')+'SOTA TEZUKA';const lb=document.getElementById('lightbox');if(!showing&&lb.open)lb.close();window.scrollTo(0,0)}
+function syncPage(){const route=location.hash.replace('#','');const showing=route==='works'||route==='projects';home.classList.toggle('is-hidden',!!route);site.classList.toggle('is-visible',showing);for(const id of ['about','contact','store'])document.getElementById(id).classList.toggle('is-visible',route===id);document.title=(route?route.toUpperCase()+' — ':'')+'SOTA TEZUKA';const lb=document.getElementById('lightbox');if(!showing&&lb.open)lb.close();window.scrollTo(0,0)}
 document.getElementById('back').addEventListener('click',()=>{location.hash='';syncPage()});window.addEventListener('hashchange',syncPage);window.addEventListener('popstate',syncPage);syncPage();
 // Replace image paths and titles below with your actual works. All source images are placeholders.
 const works=Array.from({length:12},(_,i)=>({src:`images/${String(i+1).padStart(2,'0')}.svg`,title:`IMAGE ${String(i+1).padStart(2,'0')}`}));
@@ -60,26 +79,45 @@ function open(i){show(i);dialog.showModal()}
 document.getElementById('close').onclick=()=>dialog.close();document.getElementById('prev').onclick=()=>show(active-1);document.getElementById('next').onclick=()=>show(active+1);dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});document.addEventListener('keydown',e=>{if(!dialog.open)return;if(e.key==='ArrowLeft')show(active-1);if(e.key==='ArrowRight')show(active+1)});
 document.getElementById('count').textContent=`${works.length} IMAGES`;
 
-const coordinateField=document.getElementById('coordinate-field'),coordinateIndex=document.getElementById('coordinate-index');
-const pages=[{name:'WORKS',hash:'#works'},{name:'ABOUT',hash:'#about'},{name:'CONTACT',hash:'#contact'}];
-const step=26;let coordinatePoints=[];
+const topChars=['S','O','T','(','E','Z','U','K',')','A'];
+// The continuous perimeter reads bottom-to-top on the left and top-to-bottom on the right.
+// The asterisks are separators, never missing-letter markers.
+const entries=[{name:'PROJECTS',side:'left',hash:'#projects'},{name:'ABOUT',side:'left',hash:'#about'},{name:'CONTACT',side:'right',hash:'#contact'},{name:'STORE',side:'right',hash:'#store'}];
+const top=document.getElementById('chart-top'),left=document.getElementById('chart-left'),right=document.getElementById('chart-right'),links=document.getElementById('chart-links');
+for(const c of topChars){const el=document.createElement('span');el.textContent=c;if('EZUK'.includes(c))el.className='muted';top.append(el)}
 function randInt(max){if(window.crypto&&crypto.getRandomValues){const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%max}return Math.floor(Math.random()*max)}
-function chooseCoordinates(){
- const w=coordinateField.clientWidth,h=coordinateField.clientHeight;
- const maxX=Math.max(1,Math.floor((w/2-34)/step)),maxY=Math.max(1,Math.floor((h/2-34)/step));
- const options=[];for(let y=-maxY;y<=maxY;y++)for(let x=-maxX;x<=maxX;x++)if(x!==0||y!==0)options.push({x,y});
- const result=[];pages.forEach((page,i)=>{if(!options.length)return;const idx=randInt(options.length);const selected=options.splice(idx,1)[0];result.push({...page,...selected});for(let k=options.length-1;k>=0;k--)if(Math.hypot(options[k].x-selected.x,options[k].y-selected.y)<2.1)options.splice(k,1)});return result;
-}
-function drawCoordinates(){
- const w=coordinateField.clientWidth,h=coordinateField.clientHeight,cx=w/2,cy=h/2;
- document.getElementById("chart-range-x").textContent=`X / ${-Math.floor((w/2-34)/step)} … +${Math.floor((w/2-34)/step)}`;
- document.getElementById("chart-range-y").textContent=`Y / ${-Math.floor((h/2-34)/step)} … +${Math.floor((h/2-34)/step)}`;
- coordinateField.style.setProperty('--step',step+'px');coordinateField.style.setProperty('--gx',cx+'px');coordinateField.style.setProperty('--gy',cy+'px');coordinateField.style.setProperty('--cx',cx+'px');coordinateField.style.setProperty('--cy',cy+'px');coordinateField.style.setProperty('--hit','26px');
- coordinateField.querySelectorAll('.coordinate-hotspot').forEach(e=>e.remove());coordinateIndex.replaceChildren();
- coordinatePoints.forEach(p=>{const x=cx+p.x*step,y=cy-p.y*step;
- const a=document.createElement('a');a.className='coordinate-hotspot';a.href=p.hash;a.style.left=x+'px';a.style.top=y+'px';const accessibleText=document.createElement('span');accessibleText.className='visually-hidden';accessibleText.textContent=p.name+' at '+p.x+','+p.y;a.append(accessibleText);coordinateField.append(a);
- const item=document.createElement('span');const label=document.createElement('a');label.href=p.hash;label.textContent=`${p.name} [${p.x>=0?'+':''}${p.x},${p.y>=0?'+':''}${p.y}]`;item.append(label);coordinateIndex.append(item)});
-}
-function resetCoordinates(){coordinatePoints=chooseCoordinates();drawCoordinates()}
-let coordinateResize;window.addEventListener('resize',()=>{clearTimeout(coordinateResize);coordinateResize=setTimeout(()=>{const maxX=Math.floor((coordinateField.clientWidth/2-34)/step),maxY=Math.floor((coordinateField.clientHeight/2-34)/step);if(coordinatePoints.some(p=>Math.abs(p.x)>maxX||Math.abs(p.y)>maxY))resetCoordinates();else drawCoordinates()},100)});resetCoordinates();
+const leftSlots=[...('PROJECTS*ABOUT')].reverse(); // 14 positions, top-to-bottom
+const rightSlots=[...('*CONTACT*STORE')]; // 14 positions, top-to-bottom
+const used=new Set();
+const choices=entries.map(entry=>{
+ const slots=entry.side==='left'?leftSlots:rightSlots;
+ const available=[];
+ for(let i=0;i<slots.length;i++)if(entry.name.includes(slots[i])&&topChars.includes(slots[i])&&slots[i]!=='*'){
+   // Restrict to the actual word's slots, excluding the other word on the same side.
+   const original=entry.side==='left'?'PROJECTS*ABOUT':'*CONTACT*STORE';
+   const offset=original.indexOf(entry.name);
+   const originalIndex=entry.side==='left'?original.length-1-i:i;
+   if(originalIndex>=offset&&originalIndex<offset+entry.name.length){
+     const x=topChars.indexOf(slots[i]);const y=i;
+     available.push({x,y,letter:slots[i]});
+   }
+ }
+ // Prefer distinct X columns to keep invisible links distributed.
+ const distinct=available.filter(p=>!used.has(p.x));const pool=distinct.length?distinct:available;
+ const chosen=pool[randInt(pool.length)];used.add(chosen.x);return {...entry,...chosen};
+});
+function renderSide(target,slots,side){slots.forEach((char,i)=>{
+ const el=document.createElement('span');el.className='chart-side-char '+side;
+ const omitted=choices.some(p=>p.side===side&&p.y===i);
+ if(omitted){el.classList.add('empty');el.textContent=' ';}else{el.textContent=char==='*'?'＊':char;}
+ target.append(el);
+});}
+renderSide(left,leftSlots,'left');renderSide(right,rightSlots,'right');
+choices.forEach(p=>{
+ const a=document.createElement('a');a.className='coordinate-hotspot';a.href=p.hash;
+ // Top letters and side letters align with the centres of their respective grid cells.
+ a.style.left=((p.x+1)/11*100)+'%';a.style.top=((p.y+1)/15*100)+'%';
+ const name=document.createElement('span');name.className='visually-hidden';name.textContent=p.name;a.append(name);
+ links.append(a);
+});
 })();</script></body></html>
