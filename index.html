@@ -1,17 +1,83 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#ffffff"><meta name="description" content="SOTA TEZUKA — Portfolio"><title>SOTA TEZUKA</title>
-<style>
-:root{--gap:clamp(12px,2.15vw,30px);--ink:#191919;--muted:#747474}*{box-sizing:border-box}html{background:white}body{margin:0;color:var(--ink);background:#fff;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}button{font:inherit}header{padding:24px var(--gap) 23px;display:flex;align-items:baseline;justify-content:space-between;gap:16px}h1{font-size:clamp(15px,1.5vw,20px);font-weight:500;letter-spacing:.095em;margin:0}header small{font-size:10px;letter-spacing:.09em;color:var(--muted)}main{padding:0 var(--gap) var(--gap)}.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap)}.item{margin:0;min-width:0}.image-button{display:block;position:relative;aspect-ratio:1.41421356237/1;width:100%;border:0;padding:0;background:#f3f3f1;overflow:hidden;cursor:zoom-in}.image-button img{display:block;width:100%;height:100%;object-fit:cover}.image-button:focus-visible{outline:2px solid #111;outline-offset:3px}.image-button:hover img{opacity:.86}.caption{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:10px;line-height:1.4;letter-spacing:.035em}.caption .number{color:var(--muted);font-family:monospace}footer{padding:20px var(--gap) 30px;display:flex;justify-content:space-between;color:var(--muted);font:10px monospace}dialog{border:0;padding:0;max-width:none;max-height:none;width:100vw;height:100dvh;background:#fff;color:#111}dialog::backdrop{background:#fff}.viewer{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:var(--gap);gap:var(--gap)}.viewer-head{display:flex;justify-content:space-between;align-items:center;font:12px monospace}.viewer-head button{border:0;background:none;padding:8px;cursor:pointer;font:12px monospace}.viewer-image{width:100%;height:100%;object-fit:contain;min-height:0}.viewer-foot{display:flex;justify-content:space-between;font:11px monospace;color:#555}.viewer-foot button{border:1px solid #aaa;background:white;padding:7px 13px;cursor:pointer}.viewer-actions{display:flex;gap:7px} @media(max-width:900px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){header{padding-top:20px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.caption{font-size:9px}header small{font-size:9px}}@media(max-width:340px){.gallery{grid-template-columns:1fr}}
-</style></head><body><header><h1>SOTA TEZUKA</h1><small>SELECTED IMAGES / PORTFOLIO</small></header><main><div class="gallery" id="gallery"></div></main><footer><span>© SOTA TEZUKA</span><span id="count">12 IMAGES</span></footer><dialog id="lightbox" aria-label="Image viewer"><div class="viewer"><div class="viewer-head"><span id="viewer-title"></span><button id="close" aria-label="Close">CLOSE ×</button></div><img class="viewer-image" id="viewer-image" alt=""><div class="viewer-foot"><span id="viewer-count"></span><div class="viewer-actions"><button id="prev" aria-label="Previous image">← PREV</button><button id="next" aria-label="Next image">NEXT →</button></div></div></div></dialog>
-<script>
-(()=>{'use strict';
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ffffff"><title>SOTA TEZUKA</title><style>
+:root{--gap:clamp(12px,2.15vw,30px);--ink:#191919;--muted:#747474}*{box-sizing:border-box}html{background:white}body{margin:0;color:var(--ink);background:#fff;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}button{font:inherit}header{padding:24px var(--gap) 23px;display:flex;align-items:baseline;justify-content:space-between;gap:16px}h1{font-size:clamp(15px,1.5vw,20px);font-weight:500;letter-spacing:.095em;margin:0}header small{font-size:10px;letter-spacing:.09em;color:var(--muted)}main{padding:0 var(--gap) var(--gap)}.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap)}.item{margin:0;min-width:0}.image-button{display:block;position:relative;aspect-ratio:1.41421356237/1;width:100%;border:0;padding:0;background:#f3f3f1;overflow:hidden;cursor:zoom-in}.image-button img{display:block;width:100%;height:100%;object-fit:cover}.image-button:focus-visible{outline:2px solid #111;outline-offset:3px}.image-button:hover img{opacity:.88}.image-button canvas{display:block;width:100%;height:100%;object-fit:cover;image-rendering:pixelated}.image-button img{display:none}footer{padding:20px var(--gap) 30px;display:flex;justify-content:space-between;color:var(--muted);font:10px monospace}dialog{border:0;padding:0;max-width:none;max-height:none;width:100vw;height:100dvh;background:#fff;color:#111}dialog::backdrop{background:#fff}.viewer{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:var(--gap);gap:var(--gap)}.viewer-head{display:flex;justify-content:space-between;align-items:center;font:12px monospace}.viewer-head button{border:0;background:none;padding:8px;cursor:pointer;font:12px monospace}.viewer-image{width:100%;height:100%;object-fit:contain;min-height:0}.viewer-foot{display:flex;justify-content:space-between;font:11px monospace;color:#555}.viewer-foot button{border:1px solid #aaa;background:white;padding:7px 13px;cursor:pointer}.viewer-actions{display:flex;gap:7px} @media(max-width:900px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){header{padding-top:20px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}header small{font-size:9px}}@media(max-width:340px){.gallery{grid-template-columns:1fr}}
+
+
+.site{display:none}.site.is-visible{display:block}.home.is-hidden{display:none}.back-home{border:0;background:none;padding:0;cursor:pointer;font:inherit;letter-spacing:inherit;color:inherit}.back-home:hover{opacity:.5}
+.info-page{display:none;min-height:100svh;padding:32px clamp(20px,4vw,64px);font:12px/1.8 'Courier New',monospace}.info-page.is-visible{display:flex;flex-direction:column}.info-page h2{font:inherit;font-size:13px;font-weight:400;letter-spacing:.04em;margin:0 0 50px}.info-page p{max-width:42em}.info-page a{color:inherit;text-decoration:underline;text-underline-offset:3px}.info-page .return{align-self:flex-start;margin-bottom:64px}.brand-muted{color:#969696}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+.home{position:fixed;inset:0;background:#fff;overflow:hidden}.coordinate-field{position:absolute;inset:0 0 47px;overflow:hidden;background:#fff;cursor:crosshair}.grid-background{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to right,#e0e0e0 .7px,transparent .7px),linear-gradient(to bottom,#e0e0e0 .7px,transparent .7px);background-position:var(--gx) var(--gy);background-size:var(--step) var(--step)}.axis{position:absolute;background:#171717;pointer-events:none}.axis-x{left:0;right:0;top:var(--cy);height:1px}.axis-y{top:0;bottom:0;left:var(--cx);width:1px}.coordinate-hotspot{position:absolute;z-index:2;display:block;border:0;background:transparent;width:var(--hit);height:var(--hit);transform:translate(-50%,-50%);cursor:pointer;border-radius:0}.coordinate-hotspot:focus-visible{outline:1px solid #888;outline-offset:0}.coordinate-banner{position:fixed;bottom:0;left:0;right:0;min-height:47px;border-top:1px solid #e5e5e5;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:7px 20px;font:10px/1.6 'Courier New',monospace}.coordinate-index{display:flex;flex-wrap:wrap;column-gap:24px;row-gap:3px}.coordinate-index span{white-space:nowrap}.coordinate-banner .wordmark{white-space:nowrap;font-size:11px}.coordinate-banner .coordinate-index a{color:inherit;text-decoration:none}.coordinate-banner .coordinate-index a:hover{text-decoration:underline;text-underline-offset:2px}@media(max-width:650px){.coordinate-banner{min-height:65px;padding:7px 10px;font-size:9px;align-items:flex-start}.coordinate-field{bottom:65px}.coordinate-index{column-gap:12px}.coordinate-banner .wordmark{font-size:10px}}
+</style></head><body><section class="home" id="home" aria-label="Coordinate homepage"><div class="coordinate-field" id="coordinate-field"><div class="grid-background" id="grid-background"></div><div class="axis axis-x"></div><div class="axis axis-y"></div></div><div class="coordinate-banner"><div class="coordinate-index" id="coordinate-index"></div><span class="wordmark">SOT<span class="brand-muted">EZUK</span>A</span></div></section><div class="site" id="site"><header><h1><button class="back-home" id="back" type="button" aria-label="Return to homepage">SOTA TEZUKA</button></h1><small>SELECTED IMAGES / PORTFOLIO</small></header><main><div class="gallery" id="gallery"></div></main><footer><span>© SOTA TEZUKA</span><span id="count">12 IMAGES</span></footer><dialog id="lightbox" aria-label="Image viewer"><div class="viewer"><div class="viewer-head"><span>SOTA TEZUKA</span><button id="close" aria-label="Close">×</button></div><img class="viewer-image" id="viewer-image" alt=""><div class="viewer-foot"><span></span><div class="viewer-actions"><button id="prev" aria-label="Previous image">←</button><button id="next" aria-label="Next image">→</button></div></div></div></dialog></div>
+<section class="info-page" id="about" aria-label="About"><a class="return" href="#">← INDEX</a><h2>ABOUT</h2><p>SOTA TEZUKA</p><p>Profile content has not yet been supplied.</p></section><section class="info-page" id="contact" aria-label="Contact"><a class="return" href="#">← INDEX</a><h2>CONTACT</h2><p>Contact details have not yet been supplied.</p></section><script>(()=>{'use strict';
+const home=document.getElementById('home'),site=document.getElementById('site');
+function syncPage(){const route=location.hash.replace('#','');const showing=route==='works';home.classList.toggle('is-hidden',!!route);site.classList.toggle('is-visible',showing);for(const id of ['about','contact'])document.getElementById(id).classList.toggle('is-visible',route===id);document.title=(route?route.toUpperCase()+' — ':'')+'SOTA TEZUKA';const lb=document.getElementById('lightbox');if(!showing&&lb.open)lb.close();window.scrollTo(0,0)}
+document.getElementById('back').addEventListener('click',()=>{location.hash='';syncPage()});window.addEventListener('hashchange',syncPage);window.addEventListener('popstate',syncPage);syncPage();
 // Replace image paths and titles below with your actual works. All source images are placeholders.
 const works=Array.from({length:12},(_,i)=>({src:`images/${String(i+1).padStart(2,'0')}.svg`,title:`IMAGE ${String(i+1).padStart(2,'0')}`}));
 const gallery=document.getElementById('gallery'),dialog=document.getElementById('lightbox');let active=0;
-for(let i=0;i<works.length;i++){const work=works[i];const figure=document.createElement('figure');figure.className='item';const button=document.createElement('button');button.className='image-button';button.type='button';button.setAttribute('aria-label',`View ${work.title}`);const img=document.createElement('img');img.src=work.src;img.alt=work.title;img.loading=i<6?'eager':'lazy';img.decoding='async';button.append(img);button.addEventListener('click',()=>open(i));const caption=document.createElement('figcaption');caption.className='caption';const title=document.createElement('span');title.textContent=work.title;const number=document.createElement('span');number.className='number';number.textContent=String(i+1).padStart(2,'0');caption.append(title,number);figure.append(button,caption);gallery.append(figure)}
-function show(i){active=(i+works.length)%works.length;const work=works[active];document.getElementById('viewer-image').src=work.src;document.getElementById('viewer-image').alt=work.title;document.getElementById('viewer-title').textContent=work.title;document.getElementById('viewer-count').textContent=`${active+1} / ${works.length}`}
+// The original file is preserved; only the thumbnail is transformed after loading.
+// Inspired by 1920s French surrealist cinema: monochrome, coarse film grain,
+// limited tonal range, soft focus, vignette and subtle scratches.
+function processThumbnail(img, canvas, index){
+  const W=280,H=198;canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});if(!ctx)return;
+  const ratio=Math.max(W/img.naturalWidth,H/img.naturalHeight);
+  const w=img.naturalWidth*ratio,h=img.naturalHeight*ratio;
+  ctx.fillStyle='#ddd';ctx.fillRect(0,0,W,H);
+  ctx.filter='grayscale(1) contrast(1.38) brightness(1.06) blur(.5px)';
+  ctx.drawImage(img,(W-w)/2,(H-h)/2,w,h);ctx.filter='none';
+  const frame=ctx.getImageData(0,0,W,H),d=frame.data;
+  let seed=(index+1)*2654435761>>>0;
+  function rand(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296}
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+    const k=(y*W+x)*4;
+    const lum=.299*d[k]+.587*d[k+1]+.114*d[k+2];
+    const dx=(x-W/2)/(W/2),dy=(y-H/2)/(H/2);
+    const vignette=Math.max(0,dx*dx+dy*dy-.15)*18;
+    const grain=(rand()-.5)*38;
+    const tone=Math.max(0,Math.min(255,lum-vignette+grain));
+    const quant=Math.round(tone/17)*17;
+    d[k]=d[k+1]=d[k+2]=quant;
+  }
+  ctx.putImageData(frame,0,0);
+  ctx.globalAlpha=.12;ctx.strokeStyle='#fff';ctx.lineWidth=.6;
+  for(let j=0;j<3;j++){
+    const x=rand()*W;ctx.beginPath();ctx.moveTo(x,rand()*H*.2);ctx.lineTo(x+(rand()-.5)*3,H*(.75+rand()*.25));ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+}
+for(let i=0;i<works.length;i++){
+ const work=works[i],figure=document.createElement('figure');figure.className='item';
+ const button=document.createElement('button');button.className='image-button';button.type='button';button.setAttribute('aria-label',`View image ${i+1}`);
+ const canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');button.append(canvas);
+ const source=new Image();source.decoding='async';source.onload=()=>processThumbnail(source,canvas,i);
+ source.onerror=()=>{const ctx=canvas.getContext('2d');canvas.width=280;canvas.height=198;ctx.fillStyle='#e5e5e5';ctx.fillRect(0,0,280,198)};
+ source.src=work.src;
+ button.addEventListener('click',()=>open(i));figure.append(button);gallery.append(figure);
+}
+function show(i){active=(i+works.length)%works.length;const work=works[active];document.getElementById('viewer-image').src=work.src;document.getElementById('viewer-image').alt=work.title}
 function open(i){show(i);dialog.showModal()}
 document.getElementById('close').onclick=()=>dialog.close();document.getElementById('prev').onclick=()=>show(active-1);document.getElementById('next').onclick=()=>show(active+1);dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});document.addEventListener('keydown',e=>{if(!dialog.open)return;if(e.key==='ArrowLeft')show(active-1);if(e.key==='ArrowRight')show(active+1)});
 document.getElementById('count').textContent=`${works.length} IMAGES`;
-})();
-</script></body></html>
+
+const coordinateField=document.getElementById('coordinate-field'),coordinateIndex=document.getElementById('coordinate-index');
+const pages=[{name:'WORKS',hash:'#works'},{name:'ABOUT',hash:'#about'},{name:'CONTACT',hash:'#contact'}];
+const step=48;let coordinatePoints=[];
+function randInt(max){if(window.crypto&&crypto.getRandomValues){const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%max}return Math.floor(Math.random()*max)}
+function chooseCoordinates(){
+ const w=coordinateField.clientWidth,h=coordinateField.clientHeight;
+ const maxX=Math.max(1,Math.floor((w/2-34)/step)),maxY=Math.max(1,Math.floor((h/2-34)/step));
+ const options=[];for(let y=-maxY;y<=maxY;y++)for(let x=-maxX;x<=maxX;x++)if(x!==0||y!==0)options.push({x,y});
+ const result=[];pages.forEach((page,i)=>{if(!options.length)return;const idx=randInt(options.length);result.push({...page,...options.splice(idx,1)[0]})});return result;
+}
+function drawCoordinates(){
+ const w=coordinateField.clientWidth,h=coordinateField.clientHeight,cx=w/2,cy=h/2;
+ coordinateField.style.setProperty('--step',step+'px');coordinateField.style.setProperty('--gx',cx+'px');coordinateField.style.setProperty('--gy',cy+'px');coordinateField.style.setProperty('--cx',cx+'px');coordinateField.style.setProperty('--cy',cy+'px');coordinateField.style.setProperty('--hit','38px');
+ coordinateField.querySelectorAll('.coordinate-hotspot').forEach(e=>e.remove());coordinateIndex.replaceChildren();
+ coordinatePoints.forEach(p=>{const x=cx+p.x*step,y=cy-p.y*step;
+ const a=document.createElement('a');a.className='coordinate-hotspot';a.href=p.hash;a.style.left=x+'px';a.style.top=y+'px';a.setAttribute('aria-label',p.name+' at '+p.x+','+p.y);a.title=p.name;coordinateField.append(a);
+ const item=document.createElement('span');const label=document.createElement('a');label.href=p.hash;label.textContent=`${p.name} [${p.x>=0?'+':''}${p.x},${p.y>=0?'+':''}${p.y}]`;item.append(label);coordinateIndex.append(item)});
+}
+function resetCoordinates(){coordinatePoints=chooseCoordinates();drawCoordinates()}
+let coordinateResize;window.addEventListener('resize',()=>{clearTimeout(coordinateResize);coordinateResize=setTimeout(()=>{const maxX=Math.floor((coordinateField.clientWidth/2-34)/step),maxY=Math.floor((coordinateField.clientHeight/2-34)/step);if(coordinatePoints.some(p=>Math.abs(p.x)>maxX||Math.abs(p.y)>maxY))resetCoordinates();else drawCoordinates()},100)});resetCoordinates();
+})();</script></body></html>
