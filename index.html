@@ -195,24 +195,42 @@ for(const [i,c] of topChars.entries()){const el=document.createElement('span');e
 function randInt(max){if(window.crypto&&crypto.getRandomValues){const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%max}return Math.floor(Math.random()*max)}
 const leftSlots=[...('PROJECTS*ABOUT')]; // 14 positions, top-to-bottom
 const rightSlots=[...('*CONTACT*STORE')]; // 14 positions, top-to-bottom
-const used=new Set();
-const choices=entries.map(entry=>{
+// Select one missing letter per word, with a UNIQUE top-axis column for every link.
+// Randomize the candidates and backtrack if a choice would make a later word collide.
+const candidates=entries.map(entry=>{
  const slots=entry.side==='left'?leftSlots:rightSlots;
+ const source=entry.side==='left'?'PROJECTS*ABOUT':'*CONTACT*STORE';
+ const offset=source.indexOf(entry.name);
  const available=[];
- for(let i=0;i<slots.length;i++)if(entry.name.includes(slots[i])&&topChars.includes(slots[i])&&slots[i]!=='*'){
-   // Restrict to the actual word's slots, excluding the other word on the same side.
-   const original=entry.side==='left'?'PROJECTS*ABOUT':'*CONTACT*STORE';
-   const offset=original.indexOf(entry.name);
-   const originalIndex=i;
-   if(originalIndex>=offset&&originalIndex<offset+entry.name.length && !(entry.name==='PROJECTS' && originalIndex===offset+entry.name.length-1)){
-     const x=topChars.indexOf(slots[i]);const y=i;
-     available.push({x,y,letter:slots[i]});
-   }
+ for(let i=offset;i<offset+entry.name.length;i++){
+   const letter=slots[i];
+   // The plural suffix S in PROJECTS must never be omitted.
+   if(entry.name==='PROJECTS'&&i===offset+entry.name.length-1)continue;
+   const x=topChars.indexOf(letter);
+   if(x>=0)available.push({x,y:i,letter});
  }
- // Prefer distinct X columns to keep invisible links distributed.
- const distinct=available.filter(p=>!used.has(p.x));const pool=distinct.length?distinct:available;
- const chosen=pool[randInt(pool.length)];used.add(chosen.x);return {...entry,...chosen};
+ return available;
 });
+function shuffled(items){
+ const result=items.slice();
+ for(let i=result.length-1;i>0;i--){
+   const j=randInt(i+1);[result[i],result[j]]=[result[j],result[i]];
+ }
+ return result;
+}
+function pickUniqueColumns(index,used,selected){
+ if(index===entries.length)return selected.slice();
+ for(const candidate of shuffled(candidates[index])){
+   if(used.has(candidate.x))continue;
+   used.add(candidate.x);selected.push({...entries[index],...candidate});
+   const solution=pickUniqueColumns(index+1,used,selected);
+   if(solution)return solution;
+   selected.pop();used.delete(candidate.x);
+ }
+ return null;
+}
+const choices=pickUniqueColumns(0,new Set(),[]);
+if(!choices)throw new Error('Could not assign distinct grid columns to all links');
 function renderSide(target,slots,side){slots.forEach((char,i)=>{
  const word=entries.find(entry=>{
    if(entry.side!==side)return false;
