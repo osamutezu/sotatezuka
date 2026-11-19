@@ -30,7 +30,7 @@ Version: 2026-11-19 / 現行実装を基準
 - 末尾_01を一覧サムネイルと詳細ページの最初の写真に使用。_02以降は詳細ページに番号順に表示。詳細写真の縦横比は維持。
 - GitHub Pages上では公開GitHub APIの contents/images を使って写真一覧を取得。正しい名前の_01写真を追加するとサムネイルを自動追加する。API取得不能時はHTML内の登録済み画像へフォールバック。GitHub APIの実運用・制限には注意。
 - 詳細文が登録されている作品は写真1枚でも詳細ページを用意し、サムネイルからリンク。詳細文のない作品はサムネイルだけ表示し、詳細ページへのリンクは設けない。
-- 詳細ページは作品名、status/date/type/location、イタリック体の概要、写真を表示。PROJECTS一覧へ戻る導線と共通のホーム帰還ロゴを維持。
+- 詳細ページは作品名、status/date/type/location、通常書体の概要、写真を表示。PROJECTS一覧へ戻る導線と共通のホーム帰還ロゴを維持。
 
 6. 登録済み作品
 - PJ01 / Scale Ruler / 2025 / Architecture / Exhibition Design / Tokyo, Japan / Completed。
@@ -47,10 +47,10 @@ Version: 2026-11-19 / 現行実装を基準
 
 
 8. 継続開発・更新・納品の運用規則
-1. 毎回、最新版の SITE_RULES.txt・CHANGELOG.txt・index.html・images/ を確認し、実ファイルを起点に改修する。
+1. 毎回、最新版の sotatezuka_rules.txt・CHANGELOG.txt・index.html・images/ を確認し、実ファイルを起点に改修する。
 2. 明示された変更以外のデザイン・機能・データを保持する。仕様と実装の不一致は確認し、推測で補わない。
 3. 変更後は可能な範囲で構文・表示・リンク・スマートフォン操作・既存機能を検証し、未検証事項を明記する。
-4. 毎回の納品時に SITE_RULES.txt に最新仕様を反映し、CHANGELOG.txt に変更・修正・検証結果を追記する。既存の記録は勝手に削除しない。
+4. 毎回の納品時に sotatezuka_rules.txt に最新仕様を反映し、CHANGELOG.txt に変更・修正・検証結果を追記する。既存の記録は勝手に削除しない。
 5. 更新したTXTファイルを毎回、サイトの完成ファイルと一緒にユーザーへ渡す。次回はその最新版を引き継ぐ。
 6. GitHubのコミット履歴を残し、問題発生時に変更を追跡・復元できるようにする。
 
@@ -62,3 +62,15 @@ Version: 2026-11-19 / 現行実装を基準
 - 画面幅650px以下: タイトル12px、作品情報と説明10px（同サイズ）。
 - HOMEとフッターのSVGロゴの寸法・配置は変更しない。
 - フッターSVGは各区画幅の33%、フッター高さの42%。フッター高さは通常clamp(35px,4vw,58px)、650px以下32px。実際の字形の見た目はSVG viewBoxと字形の形状にも依存する。
+
+10. タイポグラフィ・間隔基準（2026-11-19）
+- 統合仕様書の正式ファイル名はsotatezuka_rules.txt。毎回更新して完成ファイルと共に納品する。
+- フォントはAbsans Regular（HOME/フッターの既存SVGロゴは維持）。
+- タイトルのline-height: 1.2、本文・情報のline-height: 1.5。
+- CONTACTの項目間隔: 24px。
+- PROJECTS詳細のstatus/date/type/location各行間隔: 8px。
+- タイトルと最初の情報の間隔: 48px（ABOUT/CONTACT/PROJECTS詳細など）。
+- PROJECTS詳細の作品情報と説明文の間隔: 48px。
+- ABOUTの経歴行間隔: 8px、氏名と経歴の間隔: 48px。
+- 文字サイズは第9項を維持。line-heightは倍率、gap/marginはpxで管理する。
+- この数値はCSSで適用する基準。字形の実際の見え方やSVGのベースラインはブラウザ表示で確認する。
