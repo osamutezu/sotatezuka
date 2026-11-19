@@ -198,6 +198,42 @@
 /* PROJECTS uses the same page-heading hierarchy and inset as ABOUT / CONTACT. */
 .site main{padding-left:clamp(20px,4vw,64px);padding-right:clamp(20px,4vw,64px)}
 .projects-heading{font-family:"Shree Devanagari 714",Arial,sans-serif;font-size:20px;font-weight:400;letter-spacing:0;line-height:1.2;margin:0 0 48px}
+
+/* 2026-11-20: shared 11x15 chart on every subpage. */
+#subpage-chart{display:none;position:fixed;inset:0;background:#fff;z-index:20;overflow:hidden}
+#subpage-chart.is-visible{display:block}
+#subpage-chart .chart-layout{position:absolute}
+#subpage-chart .chart-top{cursor:pointer}
+#subpage-chart .chart-top:focus-visible{outline:1px solid #888;outline-offset:3px}
+#subpage-chart .chart-side-char{pointer-events:none}
+#subpage-chart .chart-frame{overflow:hidden}
+#subpage-chart .chart-grid{z-index:0}
+#subpage-chart .sub-chart-content{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;z-index:1;scrollbar-width:thin}
+#subpage-chart .sub-chart-content.info-content{padding:calc(100% / 15 / 2) calc(100% / 11 / 2);font-size:12px;line-height:1.5}
+#subpage-chart .sub-chart-content.info-content .info-page{display:flex;min-height:0;padding:0;font:inherit;flex-direction:column}
+#subpage-chart .sub-chart-content.info-content .info-page h2{display:none}
+#subpage-chart .sub-chart-content.info-content .info-page p{font-size:inherit;max-width:100%;overflow-wrap:anywhere}
+#subpage-chart .sub-chart-content.info-content .contact-details{gap:24px}
+#subpage-chart .sub-chart-content.info-content .contact-row{font-size:inherit;line-height:1.5}
+#subpage-chart .sub-chart-content.info-content .about-history{font-size:inherit;line-height:1.5;row-gap:8px;column-gap:12px}
+#subpage-chart .sub-chart-content.info-content .about-name{margin-bottom:48px!important}
+#subpage-chart .sub-chart-content.detail-content{padding:calc(100% / 15 / 2) calc(100% / 11 / 2)}
+#subpage-chart .sub-chart-content.detail-content .project-detail{display:block;min-height:0;padding:0;font-size:12px}
+#subpage-chart .sub-chart-content.detail-content .project-detail h2{font-size:18px;line-height:1.2;margin:0 0 48px}
+#subpage-chart .sub-chart-content.detail-content .project-meta{font-size:12px;row-gap:8px}
+#subpage-chart .sub-chart-content.detail-content .project-description{font-size:12px;line-height:1.5;margin-top:48px}
+#subpage-chart .sub-chart-content.detail-content .project-photo-series{margin-top:48px}
+#subpage-chart .sub-chart-content.detail-content .project-index-link{margin-top:48px}
+#subpage-chart .sub-chart-content.projects-content{overflow:hidden}
+#subpage-chart .projects-tile{position:absolute;display:block;overflow:hidden;margin:0;cursor:pointer;background:#f6f6f6}
+#subpage-chart .projects-tile img{width:100%;height:100%;display:block;object-fit:cover}
+#subpage-chart .projects-tile:focus-visible{outline:2px solid #111;outline-offset:-2px}
+#subpage-chart .projects-tile.no-detail{cursor:default}
+#subpage-chart .project-arrows{position:absolute;left:0;right:0;bottom:calc(-1 * clamp(25px,4.3vh,46px) * .85);display:flex;justify-content:space-between;pointer-events:none;z-index:4}
+#subpage-chart .project-arrow{border:0;background:transparent;color:#222;font:24px/1 Arial,sans-serif;cursor:pointer;pointer-events:auto;padding:4px 8px;transform:translateX(-50%)}
+#subpage-chart .project-arrow.next{transform:translateX(50%)}
+#subpage-chart .project-arrow:disabled{opacity:.3;cursor:default}
+@media(max-width:650px){#subpage-chart .sub-chart-content.info-content{font-size:10px}#subpage-chart .sub-chart-content.detail-content .project-detail h2{font-size:12px}#subpage-chart .sub-chart-content.detail-content .project-meta,#subpage-chart .sub-chart-content.detail-content .project-description{font-size:10px}#subpage-chart .project-arrow{font-size:20px}}
 </style></head><body><section class="home" id="home" aria-label="Letter coordinate chart"><div class="chart-layout" id="chart-layout"><div class="chart-top" id="chart-top" aria-label="SOTEZUKA"></div><div class="chart-left" id="chart-left"></div><div class="chart-right" id="chart-right"></div><div class="chart-frame" id="coordinate-field"><div class="chart-grid" aria-hidden="true"></div><div class="chart-links" id="chart-links"></div></div></div></section><div class="site" id="site"><main><h2 class="projects-heading">PROJECTS</h2><div class="gallery" id="gallery"></div></main><dialog id="lightbox" aria-label="Image viewer"><div class="viewer"><div class="viewer-head"><span>SOTA TEZUKA</span><button id="close" aria-label="Close">×</button></div><img class="viewer-image" id="viewer-image" alt=""><div class="viewer-foot"><span></span><div class="viewer-actions"><button id="prev" aria-label="Previous image">←</button><button id="next" aria-label="Next image">→</button></div></div></div></dialog></div>
 <section class="project-detail" id="scale-ruler" aria-label="Scale Ruler project"><div class="project-detail-inner"><h2>Scale Ruler</h2><dl class="project-meta"><dt>status :</dt><dd>Completed</dd><dt>date :</dt><dd>2025</dd><dt>type :</dt><dd>Architecture / Exhibition Design</dd><dt>location :</dt><dd>Tokyo, Japan</dd></dl><p class="project-description">This is the diploma project. it was exhibited at Musashino Art University Degree Show 2024.</p><div class="project-photo-series" id="scale-ruler-photos" aria-label="Scale Ruler project photographs"></div><a class="project-index-link" href="#projects">PROJECTS</a></div></section><section class="project-detail" id="kjm-project" aria-label="KJM project"><div class="project-detail-inner"><h2>KJM project</h2><dl class="project-meta"><dt>status :</dt><dd>on going</dd><dt>date :</dt><dd>2023-</dd><dt>type :</dt><dd>Architecture</dd><dt>location :</dt><dd>Tokyo, Japan</dd></dl><p class="project-description">This is the renovation project undertaken while working at Soma Yokoi Architects and Shimon architects.</p><div class="project-photo-series" id="kjm-project-photos" aria-label="KJM project photographs"></div><a class="project-index-link" href="#projects">PROJECTS</a></div></section><section class="info-page" id="about" aria-label="About"><h2>ABOUT</h2><div class="about-profile"><p class="about-name">SOTA TEZUKA</p><div class="about-history" aria-label="Biography timeline"><div class="about-year">2002</div><div class="about-affiliation">Born in Tokyo, Japan</div><div class="about-year">2021–2025</div><div class="about-affiliation">Musashino Art University, Tokyo, Japan</div><div class="about-year">2025–</div><div class="about-affiliation">Tokyo University of the Arts, Tokyo, Japan</div><div class="about-year">2026–</div><div class="about-affiliation">Experience, Paris, France (internship)</div></div></div></section><section class="info-page" id="store" aria-label="Store"><h2>STORE</h2><p>Store content has not yet been supplied.</p></section><section class="info-page" id="contact" aria-label="Contact"><h2>CONTACT</h2><div class="contact-details"><div class="contact-row"><span class="contact-label">mail:</span><a class="contact-link" href="mailto:souta.tezuka.arc@gmail.com">souta.tezuka.arc@gmail.com</a></div><div class="contact-row"><span class="contact-label">instagram:</span><a class="contact-link" href="https://share.google/BltrP7kXutyDAKvgn" target="_blank" rel="noopener noreferrer">@osamutezu</a></div></div></section><footer class="subpage-footer" id="subpage-footer"><a href="#" class="footer-home" id="footer-home" aria-label="Return to homepage"></a></footer><script>(()=>{'use strict';
 const home=document.getElementById('home'),site=document.getElementById('site');
@@ -475,5 +511,77 @@ function alignFooter(){
 
 window.addEventListener('resize',alignFooter);window.addEventListener('hashchange',()=>{subpageFooter.classList.toggle('is-visible',!!location.hash.replace('#',''));alignFooter()});
 subpageFooter.classList.toggle('is-visible',!!location.hash.replace('#',''));alignFooter();
+window.__siteLetterGlyph=letterGlyph;
+})();
+</script><script>
+// Shared subpage chart: clone the actual home chart geometry and vector lettering.
+(function(){
+ const overlay=document.createElement('section');overlay.id='subpage-chart';overlay.setAttribute('aria-label','Shared coordinate chart');
+ const shell=document.getElementById('chart-layout').cloneNode(true);shell.id='sub-chart-layout';
+ shell.querySelector('#chart-top').id='sub-chart-top';shell.querySelector('#chart-left').id='sub-chart-left';shell.querySelector('#chart-right').id='sub-chart-right';
+ shell.querySelector('#coordinate-field').id='sub-chart-frame';
+ shell.querySelector('#chart-links').remove();
+ const content=document.createElement('div');content.className='sub-chart-content';shell.querySelector('#sub-chart-frame').append(content);
+ overlay.append(shell);document.body.append(overlay);
+ const top=shell.querySelector('#sub-chart-top');top.setAttribute('role','link');top.setAttribute('tabindex','0');top.setAttribute('aria-label','Return to home');top.removeAttribute('aria-pressed');
+ const goHome=()=>{location.hash='';};top.addEventListener('click',goHome);top.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();goHome()}});
+ const left=shell.querySelector('#sub-chart-left'),right=shell.querySelector('#sub-chart-right');
+ // Replace randomly omitted characters with complete words on subpages.
+ const fillSide=(node,letters)=>{node.replaceChildren();for(const [i,c] of [...letters].entries()){const span=document.createElement('span');span.className='chart-side-char';span.style.top=((i+1)/15*100)+'%';span.append(window.__siteLetterGlyph(c));node.append(span)}};
+ fillSide(left,'PROJECTS*ABOUT');fillSide(right,'*CONTACT*STORE');
+ let page=0,pages=[],signature='';
+ const frame=shell.querySelector('#sub-chart-frame');
+ const arrowBar=document.createElement('div');arrowBar.className='project-arrows';
+ const prev=document.createElement('button'),next=document.createElement('button');prev.className='project-arrow prev';next.className='project-arrow next';prev.textContent='←';next.textContent='→';prev.setAttribute('aria-label','Previous project grid');next.setAttribute('aria-label','Next project grid');
+ arrowBar.append(prev,next);shell.append(arrowBar);
+ // Place arrow centres at the S and A axes (1/11 and 10/11 of frame width).
+ arrowBar.style.left='calc(var(--side) + var(--framewidth) / 11)';arrowBar.style.right='calc(var(--side) + var(--framewidth) / 11)';
+ function packProjects(){
+  const cards=[...document.querySelectorAll('#gallery .item')];
+  const sig=cards.map(c=>c.textContent.trim()).join('|')+'|'+cards.length;
+  if(sig===signature)return;signature=sig;
+  // Deterministic shuffled candidates: random on reload, stable while paging.
+  const taken=[];pages=[];let current=[];
+  function overlap(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+  for(const card of cards){
+   let chosen=null;const options=[];
+   for(const [w,h] of [[5,4],[4,5],[4,4],[3,4],[4,3],[3,3],[5,3],[3,5]]){
+    for(let y=0;y<=15-h;y++)for(let x=0;x<=11-w;x++)options.push({x,y,w,h});
+   }
+   for(let i=options.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[options[i],options[j]]=[options[j],options[i]]}
+   chosen=options.find(p=>current.every(q=>!overlap(p,q.rect)));
+   if(!chosen){pages.push(current);current=[];chosen=options[0]}
+   current.push({card,rect:chosen});
+  }
+  if(current.length)pages.push(current);
+  if(!pages.length)pages=[[]];page=Math.min(page,pages.length-1);
+ }
+ function drawProjects(){packProjects();content.replaceChildren();content.className='sub-chart-content projects-content';
+  for(const {card,rect:r} of pages[page]){
+   const source=card.querySelector('.image-button');if(!source)continue;
+   const tile=document.createElement(source.tagName==='A'?'a':'div');tile.className='projects-tile'+(source.classList.contains('no-detail')?' no-detail':'');
+   if(tile.tagName==='A')tile.href=source.getAttribute('href');
+   tile.setAttribute('aria-label',card.textContent.trim());
+   const img=source.querySelector('img');if(img)tile.append(img.cloneNode(true));
+   tile.style.left=(r.x/11*100)+'%';tile.style.top=(r.y/15*100)+'%';tile.style.width=(r.w/11*100)+'%';tile.style.height=(r.h/15*100)+'%';content.append(tile);
+  }
+  arrowBar.style.display='flex';prev.disabled=next.disabled=pages.length<2;
+ }
+ prev.addEventListener('click',()=>{page=(page-1+pages.length)%pages.length;drawProjects()});next.addEventListener('click',()=>{page=(page+1)%pages.length;drawProjects()});
+ function showRoute(){const route=location.hash.slice(1);if(!route){overlay.classList.remove('is-visible');return}
+  overlay.classList.add('is-visible');arrowBar.style.display='none';content.replaceChildren();content.className='sub-chart-content';
+  if(route==='projects'||route==='works'){drawProjects();return}
+  const source=document.getElementById(route);if(!source){overlay.classList.remove('is-visible');return}
+  content.classList.add(source.classList.contains('project-detail')?'detail-content':'info-content');
+  const clone=source.cloneNode(true);clone.removeAttribute('id');clone.classList.add('is-visible');
+  // The perimeter supplies the page name; retain project-specific titles.
+  content.append(clone);content.scrollTop=0;
+ }
+ window.addEventListener('hashchange',showRoute);window.addEventListener('popstate',showRoute);
+ // GitHub API may update the existing gallery asynchronously.
+ const sourceGallery=document.getElementById('gallery');if(sourceGallery){const observer=new MutationObserver(()=>{signature='';if(location.hash==='#projects'||location.hash==='#works')drawProjects()});observer.observe(sourceGallery,{childList:true})}
+ // Project photo series can update after the route has been opened.
+ for(const target of document.querySelectorAll('.project-photo-series'))new MutationObserver(()=>{if(location.hash.slice(1)===target.closest('.project-detail')?.id)showRoute()}).observe(target,{childList:true});
+ showRoute();
 })();
 </script></body></html>
