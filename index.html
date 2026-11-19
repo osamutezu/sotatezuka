@@ -85,7 +85,17 @@
 .chart-layout{--side:clamp(35px,4vw,58px);--toprow:var(--side)}
 .chart-frame{box-shadow:inset 0 0 0 .55px #b8b8b8;outline:1.5px solid #777;outline-offset:clamp(4px,.55vw,7px)}
 @media(max-width:650px){.chart-layout{--side:32px;--toprow:var(--side)}.chart-frame{outline-offset:4px}}
-</style></head><body><section class="home" id="home" aria-label="Letter coordinate chart"><div class="chart-layout" id="chart-layout"><div class="chart-top" id="chart-top" aria-label="SOTEZUKA"></div><div class="chart-left" id="chart-left"></div><div class="chart-right" id="chart-right"></div><div class="chart-frame" id="coordinate-field"><div class="chart-grid" aria-hidden="true"></div><div class="chart-links" id="chart-links"></div></div></div><div class="chart-foot"><span>PROJECTS / ABOUT / CONTACT / STORE</span><span>SOT<span class="brand-muted">EZUK</span>A</span></div></section><div class="site" id="site"><header><h1><button class="back-home" id="back" type="button" aria-label="Return to homepage">SOTA TEZUKA</button></h1><small>SELECTED IMAGES / PORTFOLIO</small></header><main><div class="gallery" id="gallery"></div></main><footer><span>© SOTA TEZUKA</span><span id="count">12 IMAGES</span></footer><dialog id="lightbox" aria-label="Image viewer"><div class="viewer"><div class="viewer-head"><span>SOTA TEZUKA</span><button id="close" aria-label="Close">×</button></div><img class="viewer-image" id="viewer-image" alt=""><div class="viewer-foot"><span></span><div class="viewer-actions"><button id="prev" aria-label="Previous image">←</button><button id="next" aria-label="Next image">→</button></div></div></div></dialog></div>
+/* Perimeter word letters are direct links; separators remain inert. */
+.chart-foot{justify-content:flex-end}
+a.chart-side-char{color:inherit;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a.chart-side-char:focus-visible{outline:1px solid #777;outline-offset:2px}
+/* Only the coordinate intersections are interactive. Visible marks are exactly 3px. */
+.chart-side-char{cursor:default}
+.coordinate-hotspot{display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer}
+.coordinate-point{display:block;flex:none;width:3px;height:3px;border-radius:50%;background:#222;pointer-events:none}
+.coordinate-hotspot:hover .coordinate-point{transform:scale(1.35)}
+.coordinate-hotspot:focus-visible{outline:1px solid #777;outline-offset:2px}
+</style></head><body><section class="home" id="home" aria-label="Letter coordinate chart"><div class="chart-layout" id="chart-layout"><div class="chart-top" id="chart-top" aria-label="SOTEZUKA"></div><div class="chart-left" id="chart-left"></div><div class="chart-right" id="chart-right"></div><div class="chart-frame" id="coordinate-field"><div class="chart-grid" aria-hidden="true"></div><div class="chart-links" id="chart-links"></div></div></div></section><div class="site" id="site"><header><h1><button class="back-home" id="back" type="button" aria-label="Return to homepage">SOTA TEZUKA</button></h1><small>SELECTED IMAGES / PORTFOLIO</small></header><main><div class="gallery" id="gallery"></div></main><footer><span>© SOTA TEZUKA</span><span id="count">12 IMAGES</span></footer><dialog id="lightbox" aria-label="Image viewer"><div class="viewer"><div class="viewer-head"><span>SOTA TEZUKA</span><button id="close" aria-label="Close">×</button></div><img class="viewer-image" id="viewer-image" alt=""><div class="viewer-foot"><span></span><div class="viewer-actions"><button id="prev" aria-label="Previous image">←</button><button id="next" aria-label="Next image">→</button></div></div></div></dialog></div>
 <section class="info-page" id="about" aria-label="About"><a class="return" href="#">← INDEX</a><h2>ABOUT</h2><p>SOTA TEZUKA</p><p>Profile content has not yet been supplied.</p></section><section class="info-page" id="store" aria-label="Store"><a class="return" href="#">← INDEX</a><h2>STORE</h2><p>Store content has not yet been supplied.</p></section><section class="info-page" id="contact" aria-label="Contact"><a class="return" href="#">← INDEX</a><h2>CONTACT</h2><p>Contact details have not yet been supplied.</p></section><script>(()=>{'use strict';
 const home=document.getElementById('home'),site=document.getElementById('site');
 function syncPage(){const route=location.hash.replace('#','');const showing=route==='works'||route==='projects';home.classList.toggle('is-hidden',!!route);site.classList.toggle('is-visible',showing);for(const id of ['about','contact','store'])document.getElementById(id).classList.toggle('is-visible',route===id);document.title=(route?route.toUpperCase()+' — ':'')+'SOTA TEZUKA';const lb=document.getElementById('lightbox');if(!showing&&lb.open)lb.close();window.scrollTo(0,0)}
@@ -203,17 +213,29 @@ const choices=entries.map(entry=>{
  const chosen=pool[randInt(pool.length)];used.add(chosen.x);return {...entry,...chosen};
 });
 function renderSide(target,slots,side){slots.forEach((char,i)=>{
- const el=document.createElement('span');el.className='chart-side-char '+side;el.style.top=((i+1)/15*100)+'%';
+ const word=entries.find(entry=>{
+   if(entry.side!==side)return false;
+   const source=side==='left'?'PROJECTS*ABOUT':'*CONTACT*STORE';
+   const start=source.indexOf(entry.name);
+   return i>=start&&i<start+entry.name.length;
+ });
  const omitted=choices.some(p=>p.side===side&&p.y===i);
- if(omitted){el.classList.add('empty');el.textContent=' ';}else{el.append(letterGlyph(char==='*'?'*':char));el.setAttribute('aria-label',char);}
+ const el=document.createElement('span');
+ el.className='chart-side-char '+side;
+ el.style.top=((i+1)/15*100)+'%';
+ if(omitted){el.classList.add('empty');el.textContent=' ';}
+ else{
+   el.append(letterGlyph(char));
+   el.setAttribute('aria-label',word?word.name:'Separator');
+ }
  target.append(el);
 });}
 renderSide(left,leftSlots,'left');renderSide(right,rightSlots,'right');
 choices.forEach(p=>{
- const a=document.createElement('a');a.className='coordinate-hotspot';a.href=p.hash;
+ const a=document.createElement('a');a.className='coordinate-hotspot';a.href=p.hash;a.setAttribute('aria-label',p.name);
  // Top letters and side letters align with the centres of their respective grid cells.
  a.style.left=((p.x+1)/11*100)+'%';a.style.top=((p.y+1)/15*100)+'%';
- const name=document.createElement('span');name.className='visually-hidden';name.textContent=p.name;a.append(name);
+ const name=document.createElement('span');name.className='visually-hidden';name.textContent=p.name;a.append(name);const point=document.createElement('span');point.className='coordinate-point';point.setAttribute('aria-hidden','true');a.append(point);
  links.append(a);
 });
 })();</script></body></html>
