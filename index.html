@@ -115,8 +115,14 @@
 .outline-word .glyph{display:block;height:1em;width:auto;max-width:none;flex:none}
 .info-page h2 .outline-word .glyph{height:1em}
 .viewer-head .outline-words,.viewer-foot .outline-words{font-size:12px}
+/* Contact details preserve the existing restrained subpage typography. */
+.contact-details{display:flex;flex-direction:column;gap:16px}
+.contact-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;font-size:14px;line-height:1.8}
+.contact-link{color:inherit;text-decoration:none;border-bottom:1px solid #aaa;padding-bottom:2px}
+.contact-link:hover,.contact-link:focus-visible{border-bottom-color:#111}
+.contact-label .outline-words,.contact-link .outline-words{display:inline-flex}
 </style></head><body><section class="home" id="home" aria-label="Letter coordinate chart"><div class="chart-layout" id="chart-layout"><div class="chart-top" id="chart-top" aria-label="SOTEZUKA"></div><div class="chart-left" id="chart-left"></div><div class="chart-right" id="chart-right"></div><div class="chart-frame" id="coordinate-field"><div class="chart-grid" aria-hidden="true"></div><div class="chart-links" id="chart-links"></div></div></div></section><div class="site" id="site"><main><div class="gallery" id="gallery"></div></main><dialog id="lightbox" aria-label="Image viewer"><div class="viewer"><div class="viewer-head"><span>SOTA TEZUKA</span><button id="close" aria-label="Close">×</button></div><img class="viewer-image" id="viewer-image" alt=""><div class="viewer-foot"><span></span><div class="viewer-actions"><button id="prev" aria-label="Previous image">←</button><button id="next" aria-label="Next image">→</button></div></div></div></dialog></div>
-<section class="info-page" id="about" aria-label="About"><h2>ABOUT</h2><p>SOTA TEZUKA</p><p>Profile content has not yet been supplied.</p></section><section class="info-page" id="store" aria-label="Store"><h2>STORE</h2><p>Store content has not yet been supplied.</p></section><section class="info-page" id="contact" aria-label="Contact"><h2>CONTACT</h2><p>Contact details have not yet been supplied.</p></section><footer class="subpage-footer" id="subpage-footer"><a href="#" class="footer-home" id="footer-home" aria-label="Return to homepage"></a></footer><script>(()=>{'use strict';
+<section class="info-page" id="about" aria-label="About"><h2>ABOUT</h2><p>SOTA TEZUKA</p><p>Profile content has not yet been supplied.</p></section><section class="info-page" id="store" aria-label="Store"><h2>STORE</h2><p>Store content has not yet been supplied.</p></section><section class="info-page" id="contact" aria-label="Contact"><h2>CONTACT</h2><div class="contact-details"><div class="contact-row"><span class="contact-label">mail:</span><a class="contact-link" href="mailto:souta.tezuka.arc@gmail.com">souta.tezuka.arc@gmail.com</a></div><div class="contact-row"><span class="contact-label">instagram:</span><a class="contact-link" href="https://share.google/BltrP7kXutyDAKvgn" target="_blank" rel="noopener noreferrer">@osamutezu</a></div></div></section><footer class="subpage-footer" id="subpage-footer"><a href="#" class="footer-home" id="footer-home" aria-label="Return to homepage"></a></footer><script>(()=>{'use strict';
 const home=document.getElementById('home'),site=document.getElementById('site');
 function syncPage(){const route=location.hash.replace('#','');const showing=route==='works'||route==='projects';home.classList.toggle('is-hidden',!!route);site.classList.toggle('is-visible',showing);for(const id of ['about','contact','store'])document.getElementById(id).classList.toggle('is-visible',route===id);document.title=(route?route.toUpperCase()+' — ':'')+'SOTA TEZUKA';const lb=document.getElementById('lightbox');if(!showing&&lb.open)lb.close();window.scrollTo(0,0)}
 window.addEventListener('hashchange',syncPage);window.addEventListener('popstate',syncPage);syncPage();
@@ -287,7 +293,7 @@ function outlineText(node){
  }
  node.setAttribute('aria-label',original);node.textContent='';node.append(wrap);
 }
-document.querySelectorAll('.info-page h2,.info-page p,.viewer-head span,.viewer-foot span').forEach(outlineText);
+document.querySelectorAll('.info-page h2,.info-page p,.contact-label,.contact-link,.viewer-head span,.viewer-foot span').forEach(outlineText);
 // Footer wordmark uses the exact same 10 X positions and SVG letterforms as the homepage top row.
 const subpageFooter=document.getElementById('subpage-footer');
 const footerHome=document.getElementById('footer-home');
