@@ -90,7 +90,7 @@
 .chart-side-char{cursor:default}
 .coordinate-hotspot{display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer}
 .coordinate-point{display:block;flex:none;width:3px;height:3px;border-radius:50%;background:#222;pointer-events:none}
-.coordinate-hotspot:hover .coordinate-point{transform:scale(1.35)}
+.coordinate-hotspot:hover .coordinate-point,.coordinate-hotspot:active .coordinate-point,.coordinate-hotspot:focus .coordinate-point{transform:none}
 .coordinate-hotspot:focus-visible{outline:1px solid #777;outline-offset:2px}
 
 /* Subpages: no header; all page typography uses the supplied Shree letterform family. */
