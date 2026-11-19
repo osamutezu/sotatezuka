@@ -89,8 +89,9 @@
 .chart-foot{justify-content:flex-end}
 a.chart-side-char{color:inherit;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 a.chart-side-char:focus-visible{outline:1px solid #777;outline-offset:2px}
-/* Only the coordinate intersections are interactive. Visible marks are exactly 3px. */
-.chart-side-char{cursor:default}
+/* Both the perimeter letters and the 3px coordinate points are interactive. */
+a.chart-side-char{cursor:pointer}
+.chart-side-char:not(a){cursor:default}
 .coordinate-hotspot{display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer}
 .coordinate-point{display:block;flex:none;width:3px;height:3px;border-radius:50%;background:#222;pointer-events:none}
 .coordinate-hotspot:hover .coordinate-point{transform:scale(1.35)}
@@ -203,7 +204,7 @@ const choices=entries.map(entry=>{
    const original=entry.side==='left'?'PROJECTS*ABOUT':'*CONTACT*STORE';
    const offset=original.indexOf(entry.name);
    const originalIndex=i;
-   if(originalIndex>=offset&&originalIndex<offset+entry.name.length){
+   if(originalIndex>=offset&&originalIndex<offset+entry.name.length && !(entry.name==='PROJECTS' && originalIndex===offset+entry.name.length-1)){
      const x=topChars.indexOf(slots[i]);const y=i;
      available.push({x,y,letter:slots[i]});
    }
@@ -220,7 +221,8 @@ function renderSide(target,slots,side){slots.forEach((char,i)=>{
    return i>=start&&i<start+entry.name.length;
  });
  const omitted=choices.some(p=>p.side===side&&p.y===i);
- const el=document.createElement('span');
+ const el=document.createElement(word?'a':'span');
+ if(word){el.href=word.hash;el.setAttribute('aria-label',word.name);el.setAttribute('title',word.name);}
  el.className='chart-side-char '+side;
  el.style.top=((i+1)/15*100)+'%';
  if(omitted){el.classList.add('empty');el.textContent=' ';}
