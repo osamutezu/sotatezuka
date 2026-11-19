@@ -1,0 +1,64 @@
+SOTA TEZUKA PORTFOLIO — SITE RULES
+Version: 2026-11-19 / 現行実装を基準
+
+1. 基本方針
+- GitHub Pagesで公開する個人ポートフォリオ。白背景、黒〜薄灰、極細線、余白を重視した建築的・編集的デザイン。装飾、一般的なナビゲーション、不要なヘッダー・フッターは設けない。
+- 改修は必ず最新版の実ファイル（index.htmlと画像）から開始。既存機能・作品データ・字形・レイアウトを無断変更しない。デスクトップとスマートフォンで表示・操作を検証する。
+
+2. 書体
+- ロゴ、ページタイトル、ホーム外周文字、各サブページ下部の帰還ロゴ：提供済みShree Devanagari 714の字形。
+- 本文、作品情報、メール等：提供済みAbsans Regularの字形。大文字・小文字・句読点を原文どおり維持。
+- 現行HTMLではフォントを主にSVG輪郭データとして内蔵。フォントファイル自体を勝手に配布しない。
+
+3. HOME
+- 中央に11列×15行の正方形セルのグリッド。細い格子線、間隔の狭い二重フレーム。強調されたX=0/Y=0中心軸は設けない。
+- 上辺に「SOT(EZUK)A」、左辺に「PROJECTS*ABOUT」、右辺に「*CONTACT*STORE」。文字の中心を対応するグリッド線に一致させる。「*」は区切り記号。
+- 4語からそれぞれ1文字を欠落させ、上辺の同じ文字と交わる座標にページリンクを配置。PROJECTS末尾の複数形Sは欠落させない。4リンクのX座標は重複させない。再読み込み時に欠落位置を再選択。
+- 外周の文字には直接リンクを設定しない。交点のクリック領域は確保する。
+- 交点の黒いドットは直径3px。初期状態では非表示。上辺ロゴをクリック／タップ（キーボード操作も可）すると4点の表示／非表示を切り替える。ドットの表示状態にかかわらず交点リンクは維持。
+- ホームにフッターは設けない。
+
+4. サブページ
+- PROJECTS / ABOUT / CONTACT / STORE。ヘッダーなし。下部の「SOT(EZUK)A」はホーム上辺と同じX座標で配置し、全体をホームへのリンクとする。
+- ABOUT：SOTA TEZUKA、年号列と経歴列を整列。2002 Born in Tokyo, Japan / 2021–2025 Musashino Art University, Tokyo, Japan / 2025– Tokyo University of the Arts, Tokyo, Japan / 2026– Experience, Paris, France (internship)。
+- CONTACT：mail: souta.tezuka.arc@gmail.com（mailtoリンク）、instagram: @osamutezu（https://share.google/BltrP7kXutyDAKvgn）。リンクに下線なし。
+- STORE：現時点では仮ページ。架空の内容を追加しない。
+
+5. PROJECTSと写真
+- 一覧は白背景の2列サムネイル。未登録の仮画像は表示しない。プロジェクト番号順に管理。
+- 写真はGitHubリポジトリの images/ 直下に保存。命名規則：PJ番号_プロジェクト名_写真番号.jpg（例：PJ01_scale ruler_01.jpg、PJ02_KJM project_01.jpg）。png/webp等も現行コードの認識対象。
+- 末尾_01を一覧サムネイルと詳細ページの最初の写真に使用。_02以降は詳細ページに番号順に表示。詳細写真の縦横比は維持。
+- GitHub Pages上では公開GitHub APIの contents/images を使って写真一覧を取得。正しい名前の_01写真を追加するとサムネイルを自動追加する。API取得不能時はHTML内の登録済み画像へフォールバック。GitHub APIの実運用・制限には注意。
+- 詳細文が登録されている作品は写真1枚でも詳細ページを用意し、サムネイルからリンク。詳細文のない作品はサムネイルだけ表示し、詳細ページへのリンクは設けない。
+- 詳細ページは作品名、status/date/type/location、イタリック体の概要、写真を表示。PROJECTS一覧へ戻る導線と共通のホーム帰還ロゴを維持。
+
+6. 登録済み作品
+- PJ01 / Scale Ruler / 2025 / Architecture / Exhibition Design / Tokyo, Japan / Completed。
+  概要：This is the diploma project. it was exhibited at Musashino Art University Degree Show 2024.
+  画像：PJ01_scale ruler_01.jpg。
+- PJ02 / KJM project / 2023- / Architecture / Tokyo, Japan / on going。
+  概要：This is the renovation project undertaken while working at Soma Yokoi Architects and Shimon architects.
+  画像：PJ02_KJM project_01.jpg。
+
+7. 実装・納品
+- HTML/CSS/JavaScriptを基礎とし、GitHub Pagesで動作させる。既存のハッシュルーティング、画像登録、レスポンシブ配置、帰還リンクを保持。
+- 修正時は実ファイルと画像の存在を確認し、構文、表示、クリック・タップ、リンク、画像読込、モバイル、ZIPの整合性を検証。未検証事項は明記。
+- 他AIへの引き継ぎでは、このTXTだけでなく必ず最新版のindex.htmlとimages/、提供された参考画像・フォント資料も渡す。TXTは仕様の要約であり、SVG字形・正確なCSS寸法・全実装コードの代替ではない。
+
+
+8. 継続開発・更新・納品の運用規則
+1. 毎回、最新版の SITE_RULES.txt・CHANGELOG.txt・index.html・images/ を確認し、実ファイルを起点に改修する。
+2. 明示された変更以外のデザイン・機能・データを保持する。仕様と実装の不一致は確認し、推測で補わない。
+3. 変更後は可能な範囲で構文・表示・リンク・スマートフォン操作・既存機能を検証し、未検証事項を明記する。
+4. 毎回の納品時に SITE_RULES.txt に最新仕様を反映し、CHANGELOG.txt に変更・修正・検証結果を追記する。既存の記録は勝手に削除しない。
+5. 更新したTXTファイルを毎回、サイトの完成ファイルと一緒にユーザーへ渡す。次回はその最新版を引き継ぐ。
+6. GitHubのコミット履歴を残し、問題発生時に変更を追跡・復元できるようにする。
+
+※ 会話の記憶ではなく、最新版の実ファイル・仕様書・変更履歴を正本とする。
+
+9. 作品詳細ページの文字規格（2026-11-19）
+- 作品タイトル・status/date/type/location・説明はAbsans Regular。説明の斜体は解除。
+- PC: タイトル18px、作品情報と説明12px（同サイズ）。
+- 画面幅650px以下: タイトル12px、作品情報と説明10px（同サイズ）。
+- HOMEとフッターのSVGロゴの寸法・配置は変更しない。
+- フッターSVGは各区画幅の33%、フッター高さの42%。フッター高さは通常clamp(35px,4vw,58px)、650px以下32px。実際の字形の見た目はSVG viewBoxと字形の形状にも依存する。
