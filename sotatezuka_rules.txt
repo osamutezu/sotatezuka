@@ -74,3 +74,5 @@ Version: 2026-11-19 / 現行実装を基準
 - ABOUTの経歴行間隔: 8px、氏名と経歴の間隔: 48px。
 - 文字サイズは第9項を維持。line-heightは倍率、gap/marginはpxで管理する。
 - この数値はCSSで適用する基準。字形の実際の見え方やSVGのベースラインはブラウザ表示で確認する。
+
+2026-11-19 PROJECTS一覧: ABOUT/CONTACT/STOREと同じ上部ページ見出し「PROJECTS」を追加。Shreeの既存SVG字形、20px、line-height 1.2、下余白48px、左右余白clamp(20px,4vw,64px)。作品画像・リンク・順序は変更しない。
