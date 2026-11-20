@@ -203,3 +203,14 @@ PROJECTS page navigation arrows use SVG vector outlines matching the Shree Devan
 - The rule applies identically to every PROJECTS sheet, with five projects per sheet by ID: P(n) = floor((n - 1) / 5) + 1.
 - Wait for actual image dimensions before treating a provisional placement as final; re-layout after load. If the image has not loaded, provisional square placement is allowed only until its orientation becomes available.
 - Existing grayscale and grain effects apply to all thumbnail sheets; detail images retain their original color.
+
+[2026-11-20] PROJECTS THUMBNAIL ALIGNMENT — TWO ALLOWED MODES
+- Grid: 11 columns × 15 rows of square cells. Coordinates are measured in cell units from the top-left INNER grid corner: 0 <= x <= 11, 0 <= y <= 15.
+- For each thumbnail choose exactly ONE alignment mode a from {0, 1/2}. Its upper-left corner is (x,y) = (i+a,j+a), where i,j are nonnegative integers.
+- Its width w and height h are INTEGERS (cell units), with w >= 3, h >= 3. The other three corners are (x+w,y), (x,y+h), (x+w,y+h).
+- Mode A (a=0): ALL FOUR corners lie on intersections of grid lines; x,y,x+w,y+h are integers.
+- Mode B (a=1/2): ALL FOUR corners lie on centres of grid cells; x,y,x+w,y+h are half-integers (integer + 1/2).
+- Bounds: 0 <= x, 0 <= y, x+w <= 11, y+h <= 15. Thus mode A requires 0 <= i <= 11-w and 0 <= j <= 15-h; mode B requires 0 <= i <= 10-w and 0 <= j <= 14-h.
+- Mixed alignment (e.g. x integer but y half-integer, or some corners on lines and others on centres) is NOT permitted. The alignment mode is selected randomly for each thumbnail, along with its valid position and dimensions, subject to collision avoidance.
+- Two thumbnails cannot overlap in area (touching edges is allowed). If an attempted placement overlaps, retry/backtrack without changing the project-to-sheet assignment.
+- Preserve original orientation classification: landscape w>h, portrait w<h, square w=h. Keep the 5-project ID assignment P(n)=floor((n-1)/5)+1, monochrome/grain processing, original-colour detail images, and project-specific thumbnail number overrides (PJ06 uses _05).

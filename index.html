@@ -701,14 +701,25 @@ window.__siteLetterGlyph=letterGlyph;
    const optionSets=entries.map(card=>{
     const shapes=shapeOptions[thumbnailOrientation(card)];
     const options=[];
+    // Two allowed placement modes per thumbnail:
+    // 0 = all four corners on grid-line intersections (integer coordinates).
+    // 0.5 = all four corners on cell centres (half-integer coordinates).
+    // Width and height stay integer cell counts, so the same offset applies
+    // to both opposite corners; mixed-axis or mixed-corner modes are forbidden.
     for(const [w,h] of shapes){
-     for(let y=0;y<=15-h;y++)for(let x=0;x<=11-w;x++)options.push({x,y,w,h});
+     for(const offset of [0,0.5]){
+      for(let y=offset;y+h<=15;y+=1){
+       for(let x=offset;x+w<=11;x+=1){
+        options.push({x,y,w,h,alignment:offset===0?'intersections':'centres'});
+       }
+      }
+     }
     }
     for(let i=options.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[options[i],options[j]]=[options[j],options[i]];}
     return options;
    });
    // Backtracking prevents greedy placement from losing one of the five
-   // fixed-assignment projects. All four corners remain lattice intersections.
+   // fixed-assignment projects. Each tile uses exactly one of the two lattice alignment modes.
    const selected=[];
    const place=i=>{
     if(i===entries.length)return true;
