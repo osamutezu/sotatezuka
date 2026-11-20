@@ -129,3 +129,19 @@ Collaborator: Daisuke Yamagishi (oXAD)
 Description: This is the promotional poster for The Collaborative Giant Art Workshop.
 画像未提供。サムネイルは架空画像で補完せず、images/ に対応する _01 画像が追加された時点で一覧表示する。
 画像命名: PJ04_signboard A_01.jpg / PJ05_The Collaborative Giant Art Workshop_01.jpg
+
+[2026-11-20] PJ06 登録
+PJ06: prototype01 | 2022 | prototype
+Description: 空欄（ユーザー指定）。Location / Status: 未指定。未指定項目は表示しない。
+画像未提供。PJ06_prototype01_01.jpg が images/ に追加されるまでサムネイルは表示しない。
+
+
+[2026-11-20] 画像フォルダ構成
+- images/PJ##_作品名/PJ##_作品名_01.jpg, _02.jpg ... を正式な配置先とする。
+- 画像の命名規則は従来どおり。_01がサムネイル、以降は詳細ページで連番表示。
+- GitHub APIでimages直下の作品別フォルダを列挙し、各フォルダ内の画像を取得する。
+- 旧方式 images/PJ##_作品名_01.jpg も移行期間中は読み込む。同名画像は作品別フォルダを優先する。
+- 画像が未提供の作品はダミーサムネイルを作らない。
+
+[Thumbnail selection / 2026-11-20]
+PROJECTS thumbnail: default is image filename ending _01. When the user specifies a different photo number for a project, use that numbered image as the thumbnail. PJ06_prototype01 uses _05. If the specified photo is unavailable, temporarily fall back to _01. All images, including _01, remain in the detail gallery in ascending numeric order. The source images and their names are not changed.
