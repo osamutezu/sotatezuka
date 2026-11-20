@@ -225,3 +225,19 @@ PROJECTS page navigation arrows use SVG vector outlines matching the Shree Devan
 - Swaps affect gallery sheet grouping only; project details, IDs, filenames, thumbnail choice, image treatment and crop alignment/orientation are unchanged.
 - Only projects with available photographs produce visible thumbnail tiles; an image-less project still owns its assigned display slot.
 - Further user-directed swaps must preserve the prior swap history and be applied to the latest slot order.
+
+[2026-11-20] PJ08 REGISTRATION AND METADATA CASE RULE
+- PJ08: balancing, greater station | 2024 | architecture | Tokyo, Japan | proposal.
+- Description (verbatim): This is the proposal about an station.
+- Detail route: #balancing-greater-station.
+- Image folder: images/PJ08_balancing, greater station/; thumbnail: PJ08_balancing, greater station_01.jpg when supplied.
+- Display slot: 8 (PROJECTS sheet 2); PJ05/PJ07 swap remains in effect.
+- All project metadata values under `status :` and `type :` must be displayed in lowercase, including compound values; titles, descriptions, locations, and other metadata are not modified by this rule.
+- Missing PJ08 images must not be fabricated.
+
+
+[2026-11-20] SHARED VIEWPORT-FIT CHART
+- HOME, PROJECTS (all sheets), ABOUT, CONTACT, STORE, and project details share one fixed 11-column x 15-row chart geometry and perimeter typography.
+- Chart size is limited by both viewport width and viewport height, with extra vertical room reserved for the PROJECTS navigation arrows. The entire chart is shifted slightly upward (desktop 12px; mobile 7px).
+- Outer document scrolling is disabled; long project photo series remain scrollable INSIDE the chart frame, as before.
+- The chart must not change size or position when navigating between routes at the same viewport size.
