@@ -105,3 +105,10 @@ CONTACTの2項目は15行グリッドの第1行と第3行のセル中心に配�
 - PROJECTS一覧グリッド内の全サムネイルをCSS grayscale(1)で白黒化する。
 - サムネイルの上に微細なSVG turbulenceノイズを低不透明度（opacity 0.11）で重ねる。
 - ノイズは画像表示にのみ適用し、オリジナル画像、作品詳細の写真、リンク、ランダム配置には影響させない。
+
+2026-11-20 / PJ03登録
+- 表示名: revierology（ユーザー指定の綴りを維持）
+- 画像名: PJ03_reviewology_01.jpg（表示名とファイル名の綴りは異なる）
+- 年: 2023 / 分類: Architecture / 所在地: Tokyo, Japan / 状態: proposal
+- 説明: This is the proposal about an plant factory.
+- 一覧の白黒＋ノイズ、詳細の元カラー表示を維持。画像はimages/にも格納しHTML内にもフォールバック埋込。
