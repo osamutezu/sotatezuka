@@ -119,3 +119,13 @@ CONTACTの2項目は15行グリッドの第1行と第3行のセル中心に配�
 - 戻り先は直前に閲覧していたPROJECTS一覧のグリッドページ（ページ番号を維持）。
 - PROJECTS一覧の←→による循環表示、外周の字形・位置は変更しない。
 - キーボードのEnter/Spaceでも戻れるようにする。
+
+
+[2026-11-20] PJ04 / PJ05 登録
+PJ04: signboard A | 2023 | object | Tokyo, Japan | completed
+Description: This is the signboard for a dental office.
+PJ05: The Collaborative Giant Art Workshop | 2026 | poster | Tokyo, Japan | completed
+Collaborator: Daisuke Yamagishi (oXAD)
+Description: This is the promotional poster for The Collaborative Giant Art Workshop.
+画像未提供。サムネイルは架空画像で補完せず、images/ に対応する _01 画像が追加された時点で一覧表示する。
+画像命名: PJ04_signboard A_01.jpg / PJ05_The Collaborative Giant Art Workshop_01.jpg
