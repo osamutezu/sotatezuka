@@ -206,6 +206,9 @@
 #subpage-chart .chart-top{cursor:pointer}
 #subpage-chart .chart-top:focus-visible{outline:1px solid #888;outline-offset:3px}
 #subpage-chart .chart-side-char{pointer-events:none}
+/* Project detail: perimeter PROJECTS letters are a return link. */
+#subpage-chart .chart-side-char.project-return{pointer-events:auto;cursor:pointer}
+#subpage-chart .chart-side-char.project-return:focus-visible{outline:1px solid #888;outline-offset:2px}
 #subpage-chart .chart-frame{overflow:hidden}
 #subpage-chart .chart-grid{z-index:0}
 #subpage-chart .sub-chart-content{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;z-index:1;scrollbar-width:thin}
@@ -569,13 +572,24 @@ window.__siteLetterGlyph=letterGlyph;
  fillSide(left,'PROJECTS*ABOUT');fillSide(right,'*CONTACT*STORE');
  // Keep only the active section name on the frame perimeter; remove all separators.
  function updatePerimeter(route){
-  const section=route==='works'||route==='projects'||route==='scale-ruler'||route==='kjm-project'?'projects':route;
+  const section=route==='works'||route==='projects'||document.getElementById(route)?.classList.contains('project-detail')?'projects':route;
   const keep={projects:['left',0,8],about:['left',9,14],contact:['right',1,8],store:['right',9,14]}[section];
   for(const [side,node] of [['left',left],['right',right]]){
    [...node.children].forEach((el,i)=>{el.style.visibility=keep&&side===keep[0]&&i>=keep[1]&&i<keep[2]?'visible':'hidden'});
   }
  }
+ // Remember the exact PROJECTS grid sheet used before opening a detail.
+ // The existing page index remains unchanged while a detail is displayed.
  let page=0,pages=[],signature='';
+ const isProjectDetail=route=>!!document.getElementById(route)?.classList.contains('project-detail');
+ const returnToProjects=()=>{if(isProjectDetail(location.hash.slice(1)))location.hash='#projects'};
+ for(const char of [...left.children].slice(0,8)){
+  char.setAttribute('role','link');char.setAttribute('tabindex','-1');
+  char.setAttribute('aria-label','Return to previous PROJECTS grid');
+  char.addEventListener('click',returnToProjects);
+  char.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();returnToProjects()}});
+ }
+
  const frame=shell.querySelector('#sub-chart-frame');
  // A pixel cell unit prevents percentage-based min-height from resolving against auto-height content.
  const syncCellHeight=()=>frame.style.setProperty('--cell-height',(frame.getBoundingClientRect().height/15)+'px');
@@ -620,6 +634,11 @@ window.__siteLetterGlyph=letterGlyph;
  prev.addEventListener('click',()=>{page=(page-1+pages.length)%pages.length;drawProjects()});next.addEventListener('click',()=>{page=(page+1)%pages.length;drawProjects()});
  function showRoute(){const route=location.hash.slice(1);if(!route){overlay.classList.remove('is-visible');return}updatePerimeter(route);
   overlay.classList.add('is-visible');arrowBar.style.display='none';content.replaceChildren();content.className='sub-chart-content';
+  const detail=isProjectDetail(route);
+  [...left.children].slice(0,8).forEach(char=>{
+   char.classList.toggle('project-return',detail);
+   char.setAttribute('tabindex',detail?'0':'-1');
+  });
   if(route==='projects'||route==='works'){drawProjects();return}
   const source=document.getElementById(route);if(!source){overlay.classList.remove('is-visible');return}
   content.classList.add(source.classList.contains('project-detail')?'detail-content':'info-content');
