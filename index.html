@@ -248,15 +248,24 @@
 #subpage-chart .sub-chart-content.detail-content .project-meta{row-gap:0;grid-auto-rows:minmax(var(--cell-height),auto);align-items:center}
 #subpage-chart .sub-chart-content.detail-content .project-detail h2{min-height:var(--cell-height);display:flex;align-items:center;margin:0}
 #subpage-chart .sub-chart-content.detail-content .project-description{margin-top:var(--cell-height)}
-/* CONTACT: place two entries on cell rows 1 and 3, leaving row 2 empty. */
+/* All grid-contained text is vertically centered in its assigned lattice row. */
+#subpage-chart .sub-chart-content.info-content .contact-row,
+#subpage-chart .sub-chart-content.info-content .about-name,
+#subpage-chart .sub-chart-content.info-content .info-page>p,
+#subpage-chart .sub-chart-content.detail-content .project-detail h2{
+  box-sizing:border-box;
+  min-height:var(--cell-height);
+  align-items:center;
+}
+/* CONTACT: entries on rows 7 and 9; row 8 remains empty. */
 #subpage-chart .sub-chart-content.info-content .contact-details{
   display:grid;
-  grid-template-rows:repeat(3,var(--cell-height));
+  grid-template-rows:repeat(15,var(--cell-height));
   row-gap:0;
   align-content:start;
 }
-#subpage-chart .sub-chart-content.info-content .contact-row:nth-child(1){grid-row:1}
-#subpage-chart .sub-chart-content.info-content .contact-row:nth-child(2){grid-row:3}
+#subpage-chart .sub-chart-content.info-content .contact-row:nth-child(1){grid-row:7}
+#subpage-chart .sub-chart-content.info-content .contact-row:nth-child(2){grid-row:9}
 </style></head><body><section class="home" id="home" aria-label="Letter coordinate chart"><div class="chart-layout" id="chart-layout"><div class="chart-top" id="chart-top" aria-label="SOTEZUKA"></div><div class="chart-left" id="chart-left"></div><div class="chart-right" id="chart-right"></div><div class="chart-frame" id="coordinate-field"><div class="chart-grid" aria-hidden="true"></div><div class="chart-links" id="chart-links"></div></div></div></section><div class="site" id="site"><main><h2 class="projects-heading">PROJECTS</h2><div class="gallery" id="gallery"></div></main><dialog id="lightbox" aria-label="Image viewer"><div class="viewer"><div class="viewer-head"><span>SOTA TEZUKA</span><button id="close" aria-label="Close">×</button></div><img class="viewer-image" id="viewer-image" alt=""><div class="viewer-foot"><span></span><div class="viewer-actions"><button id="prev" aria-label="Previous image">←</button><button id="next" aria-label="Next image">→</button></div></div></div></dialog></div>
 <section class="project-detail" id="scale-ruler" aria-label="Scale Ruler project"><div class="project-detail-inner"><h2>Scale Ruler</h2><dl class="project-meta"><dt>status :</dt><dd>Completed</dd><dt>date :</dt><dd>2025</dd><dt>type :</dt><dd>Architecture / Exhibition Design</dd><dt>location :</dt><dd>Tokyo, Japan</dd></dl><p class="project-description">This is the diploma project. it was exhibited at Musashino Art University Degree Show 2024.</p><div class="project-photo-series" id="scale-ruler-photos" aria-label="Scale Ruler project photographs"></div><a class="project-index-link" href="#projects">PROJECTS</a></div></section><section class="project-detail" id="kjm-project" aria-label="KJM project"><div class="project-detail-inner"><h2>KJM project</h2><dl class="project-meta"><dt>status :</dt><dd>on going</dd><dt>date :</dt><dd>2023-</dd><dt>type :</dt><dd>Architecture</dd><dt>location :</dt><dd>Tokyo, Japan</dd></dl><p class="project-description">This is the renovation project undertaken while working at Soma Yokoi Architects and Shimon architects.</p><div class="project-photo-series" id="kjm-project-photos" aria-label="KJM project photographs"></div><a class="project-index-link" href="#projects">PROJECTS</a></div></section><section class="info-page" id="about" aria-label="About"><h2>ABOUT</h2><div class="about-profile"><p class="about-name">SOTA TEZUKA</p><div class="about-history" aria-label="Biography timeline"><div class="about-year">2002</div><div class="about-affiliation">Born in Tokyo, Japan</div><div class="about-year">2021–2025</div><div class="about-affiliation">Musashino Art University, Tokyo, Japan</div><div class="about-year">2025–</div><div class="about-affiliation">Tokyo University of the Arts, Tokyo, Japan</div><div class="about-year">2026–</div><div class="about-affiliation">Experience, Paris, France (internship)</div></div></div></section><section class="info-page" id="store" aria-label="Store"><h2>STORE</h2><p>Store content has not yet been supplied.</p></section><section class="info-page" id="contact" aria-label="Contact"><h2>CONTACT</h2><div class="contact-details"><div class="contact-row"><span class="contact-label">mail:</span><a class="contact-link" href="mailto:souta.tezuka.arc@gmail.com">souta.tezuka.arc@gmail.com</a></div><div class="contact-row"><span class="contact-label">instagram:</span><a class="contact-link" href="https://share.google/BltrP7kXutyDAKvgn" target="_blank" rel="noopener noreferrer">@osamutezu</a></div></div></section><footer class="subpage-footer" id="subpage-footer"><a href="#" class="footer-home" id="footer-home" aria-label="Return to homepage"></a></footer><script>(()=>{'use strict';
 const home=document.getElementById('home'),site=document.getElementById('site');
