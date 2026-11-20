@@ -241,3 +241,5 @@ PROJECTS page navigation arrows use SVG vector outlines matching the Shree Devan
 - Chart size is limited by both viewport width and viewport height, with extra vertical room reserved for the PROJECTS navigation arrows. The entire chart is shifted slightly upward (desktop 12px; mobile 7px).
 - Outer document scrolling is disabled; long project photo series remain scrollable INSIDE the chart frame, as before.
 - The chart must not change size or position when navigating between routes at the same viewport size.
+
+【2026-11-20 修復】前回納品HTMLが512KiBで途中切断されていたため、PJ08まで登録済みの完全なHTMLを基礎に画面内フィット用CSSを再適用。全ページの共通ジオメトリと既存データを保持。
