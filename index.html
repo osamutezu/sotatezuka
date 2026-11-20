@@ -657,9 +657,18 @@ window.__siteLetterGlyph=letterGlyph;
  arrowBar.append(prev,next);shell.append(arrowBar);
  // Place arrow centres at the S and A axes (1/11 and 10/11 of frame width).
  arrowBar.style.left='calc(var(--side) + var(--framewidth) / 11)';arrowBar.style.right='calc(var(--side) + var(--framewidth) / 11)';
- // Project sheet assignment is based on project ID, not packing success or image count.
- // PJnn belongs to sheet floor((nn - 1) / 5), i.e. PJ01–05, PJ06–10, ... .
+ // Default display slots follow project IDs; explicit swaps change only gallery slots.
+ // Project identity, detail routes, image filenames and metadata stay unchanged.
  const PROJECTS_PER_SHEET=5;
+ const PROJECT_DISPLAY_SWAPS=[[5,7]];
+ function displaySlotForProject(projectNumber){
+  let slot=projectNumber;
+  for(const [a,b] of PROJECT_DISPLAY_SWAPS){
+   if(slot===a)slot=b;
+   else if(slot===b)slot=a;
+  }
+  return slot;
+ }
  function projectNumberOf(card){
   const n=Number(card.dataset.projectNumber);
   return Number.isInteger(n)&&n>0?n:null;
@@ -683,7 +692,7 @@ window.__siteLetterGlyph=letterGlyph;
   for(const card of cards){
    const n=projectNumberOf(card);
    if(!Number.isInteger(n)||n<1)continue;
-   const sheet=Math.floor((n-1)/PROJECTS_PER_SHEET);
+   const sheet=Math.floor((displaySlotForProject(n)-1)/PROJECTS_PER_SHEET);
    if(!groups.has(sheet))groups.set(sheet,[]);
    groups.get(sheet).push(card);
   }

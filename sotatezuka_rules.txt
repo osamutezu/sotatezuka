@@ -214,3 +214,14 @@ PROJECTS page navigation arrows use SVG vector outlines matching the Shree Devan
 - Mixed alignment (e.g. x integer but y half-integer, or some corners on lines and others on centres) is NOT permitted. The alignment mode is selected randomly for each thumbnail, along with its valid position and dimensions, subject to collision avoidance.
 - Two thumbnails cannot overlap in area (touching edges is allowed). If an attempted placement overlaps, retry/backtrack without changing the project-to-sheet assignment.
 - Preserve original orientation classification: landscape w>h, portrait w<h, square w=h. Keep the 5-project ID assignment P(n)=floor((n-1)/5)+1, monochrome/grain processing, original-colour detail images, and project-specific thumbnail number overrides (PJ06 uses _05).
+
+[2026-11-20] PROJECTS DISPLAY SLOT SWAP — PJ05 ↔ PJ07
+- Gallery display slots are independent of immutable project IDs and image folder names.
+- Default display slot is the numeric PJ ID; each explicitly requested swap exchanges the two display slots.
+- Active swaps, in chronological order: PJ05 ↔ PJ07.
+- Gallery sheet is floor((displaySlot - 1) / 5) + 1, NOT necessarily floor((project ID - 1) / 5) + 1.
+- Sheet 1 slots 1–5: PJ01, PJ02, PJ03, PJ04, PJ07.
+- Sheet 2 slots 6–10: PJ06, PJ05, PJ08, PJ09, PJ10.
+- Swaps affect gallery sheet grouping only; project details, IDs, filenames, thumbnail choice, image treatment and crop alignment/orientation are unchanged.
+- Only projects with available photographs produce visible thumbnail tiles; an image-less project still owns its assigned display slot.
+- Further user-directed swaps must preserve the prior swap history and be applied to the latest slot order.
