@@ -156,3 +156,8 @@ PROJECTS thumbnail: default is image filename ending _01. When the user specifie
 - 各シートのサムネイルは、その範囲に属し、表示可能な画像を持つ作品のみ。未登録番号や画像未提供の作品は空きとして扱い、後続の番号で埋めない。
 - 各画像の四隅はグリッド交点に合わせ、最小3×3セルを維持する。配置できないことを理由に次のページへ繰り越さない。
 - ページ矢印は最初と最後を循環する。作品詳細から戻る場合は直前のシート番号を維持する。
+
+[2026-11-20 PROJECTS navigation positioning]
+- PROJECTS arrow centres are aligned with top-logo S/A axes (frame width 1/11 and 10/11).
+- The vertical arrow-centre offset below the frame is exactly --side / 2, identical to the lateral perimeter-label centre offset from the frame.
+- Reserve 2*--side + 36px in viewport-height sizing so navigation remains visible.
