@@ -190,3 +190,16 @@ PROJECTS page navigation arrows use SVG vector outlines matching the Shree Devan
 - Default thumbnail selection is _01; no override for PJ07.
 - Sheet assignment: P(7) = floor((7 - 1) / 5) + 1 = 2 (PJ06–PJ10).
 - Without an image, the project record/detail exists but no dummy thumbnail is shown.
+
+
+[2026-11-20] PROJECTS THUMBNAIL ORIENTATION — MANDATORY
+- Determine original orientation from actual pixel dimensions Wsrc and Hsrc of the selected thumbnail photograph (default _01, PJ06 _05).
+- Let Rsrc = Wsrc / Hsrc. The grid crop has integer dimensions w cells by h cells; since cells are square, Rcrop = w / h.
+- If Rsrc > 1 (landscape), REQUIRE w > h.
+- If Rsrc < 1 (portrait), REQUIRE w < h.
+- If Rsrc = 1 (square), REQUIRE w = h.
+- Every w and h is at least 3. The four crop corners MUST coincide with grid-line intersections; the crop stays within the 11-column by 15-row grid.
+- The crop may change the original ratio within its orientation class; object-fit:cover remains in use. No rotation is permitted.
+- The rule applies identically to every PROJECTS sheet, with five projects per sheet by ID: P(n) = floor((n - 1) / 5) + 1.
+- Wait for actual image dimensions before treating a provisional placement as final; re-layout after load. If the image has not loaded, provisional square placement is allowed only until its orientation becomes available.
+- Existing grayscale and grain effects apply to all thumbnail sheets; detail images retain their original color.

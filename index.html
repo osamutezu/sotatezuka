@@ -666,9 +666,18 @@ window.__siteLetterGlyph=letterGlyph;
  }
  // The gallery is already sorted by numeric project ID by its source builder.
  // Map the visible entries by their explicit project number from the registry.
+ // Preserve the source photograph's orientation in every thumbnail crop.
+ // landscape: w>h; portrait: w<h; square: w=h. The actual image pixels,
+ // not the project title or filename, determine its category.
+ function thumbnailOrientation(card){
+  const img=card.querySelector('.image-button img');
+  if(!img||!img.naturalWidth||!img.naturalHeight)return 'unknown';
+  const ratio=img.naturalWidth/img.naturalHeight;
+  return Math.abs(ratio-1)<0.000001?'square':ratio>1?'landscape':'portrait';
+ }
  function packProjects(){
   const cards=[...document.querySelectorAll('#gallery .item')];
-  const sig=cards.map(c=>c.outerHTML).join('|');
+  const sig=cards.map(c=>c.outerHTML+'@'+thumbnailOrientation(c)).join('|');
   if(sig===signature)return;signature=sig;
   const groups=new Map();
   for(const card of cards){
@@ -680,31 +689,57 @@ window.__siteLetterGlyph=letterGlyph;
   }
   const maxSheet=groups.size?Math.max(...groups.keys()):0;
   pages=[];
-  function overlap(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+  const overlap=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
+  const shapeOptions={
+   landscape:[[5,3],[4,3],[5,4]],
+   portrait:[[3,5],[3,4],[4,5]],
+   square:[[3,3],[4,4]],
+   unknown:[[3,3]]
+  };
   for(let sheet=0;sheet<=maxSheet;sheet++){
-   const current=[];
-   for(const card of groups.get(sheet)||[]){
+   const entries=groups.get(sheet)||[];
+   const optionSets=entries.map(card=>{
+    const shapes=shapeOptions[thumbnailOrientation(card)];
     const options=[];
-    for(const [w,h] of [[5,4],[4,5],[4,4],[3,4],[4,3],[3,3],[5,3],[3,5]]){
+    for(const [w,h] of shapes){
      for(let y=0;y<=15-h;y++)for(let x=0;x<=11-w;x++)options.push({x,y,w,h});
     }
-    for(let i=options.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[options[i],options[j]]=[options[j],options[i]]}
-    let chosen=options.find(p=>current.every(q=>!overlap(p,q.rect)));
-    // Five 3×3 thumbnails always fit in an 11×15 grid. Never move a project
-    // to a different sheet due to layout collisions.
-    if(!chosen){
-     const fallback=[];
-     for(let y=0;y<=12;y+=3)for(let x=0;x<=8;x+=3)fallback.push({x,y,w:3,h:3});
-     chosen=fallback.find(p=>current.every(q=>!overlap(p,q.rect)));
+    for(let i=options.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[options[i],options[j]]=[options[j],options[i]];}
+    return options;
+   });
+   // Backtracking prevents greedy placement from losing one of the five
+   // fixed-assignment projects. All four corners remain lattice intersections.
+   const selected=[];
+   const place=i=>{
+    if(i===entries.length)return true;
+    for(const rect of optionSets[i]){
+     if(selected.every(q=>!overlap(rect,q))){
+      selected.push(rect);
+      if(place(i+1))return true;
+      selected.pop();
+     }
     }
-    if(!chosen)throw new Error('Could not place project within its assigned sheet');
-    current.push({card,rect:chosen});
-   }
-   pages.push(current);
+    return false;
+   };
+   if(!place(0))throw new Error('Cannot place orientation-preserving thumbnails on PROJECTS sheet '+(sheet+1));
+   pages.push(entries.map((card,i)=>({card,rect:selected[i]})));
   }
   page=Math.min(page,pages.length-1);
  }
- function drawProjects(){packProjects();content.replaceChildren();content.className='sub-chart-content projects-content';
+ // Image loading is asynchronous (including GitHub API images). Repack when
+ // intrinsic dimensions become known, so orientation never depends on timing.
+ const observedThumbs=new WeakSet();
+ function watchThumbnailDimensions(){
+  for(const img of document.querySelectorAll('#gallery .image-button img')){
+   if(observedThumbs.has(img))continue;
+   observedThumbs.add(img);
+   img.addEventListener('load',()=>{
+    signature='';
+    if(location.hash==='#projects'||location.hash==='#works')drawProjects();
+   });
+  }
+ }
+ function drawProjects(){watchThumbnailDimensions();packProjects();content.replaceChildren();content.className='sub-chart-content projects-content';
   for(const {card,rect:r} of pages[page]){
    const source=card.querySelector('.image-button');if(!source)continue;
    const tile=document.createElement(source.tagName==='A'?'a':'div');tile.className='projects-tile'+(source.classList.contains('no-detail')?' no-detail':'');
