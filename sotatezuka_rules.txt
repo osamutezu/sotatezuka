@@ -164,3 +164,29 @@ PROJECTS thumbnail: default is image filename ending _01. When the user specifie
 
 [2026-11-20 PROJECTS arrows typography]
 PROJECTS page navigation arrows use SVG vector outlines matching the Shree Devanagari perimeter letter system. Their glyph box width and height are each 44% of their perimeter-sized control area, matching .chart-side-char .glyph. Stroke thickness is 40/1000 of the glyph coordinate height, analogous to the existing outline lettering. No Arial or Unicode arrow glyph rendering. Arrow centers retain the S/A logo axes and --side/2 vertical offset.
+
+[2026-11-20 PROJECTS arrows: visual size correction]
+- SVG navigation arrows use a tight viewBox="0 0 100 100" rather than 600 x 1000.
+- Visible arrow bounds: x=10..90 (80 units), y=17..83 (66 units); stroke width=2.5 units.
+- Both arrows share the same 44%-sized SVG box as perimeter lettering; the visible marks are now approximately the same apparent height as PROJECTS glyphs, subject to visual browser verification.
+- Horizontal S/A alignment and vertical offset (--side / 2) are unchanged.
+
+[PROJECTS thumbnail processing: all sheets]
+- For ALL sheet indices k >= 1, every .projects-tile img is rendered with grayscale(1).
+- For ALL sheet indices k >= 1, every .projects-tile::after applies the same grain texture at opacity 0.11.
+- No sheet-specific exceptions; the same drawProjects() creates every sheet, so pages 2, 3, ... inherit exactly the same CSS treatment.
+- Original images in project detail views are never modified.
+
+[2026-11-20 PJ07 registration]
+- ID: PJ07
+- Title: The Suginami Architecture Exhibition Booth 2026
+- Year: 2026
+- Type: exhibition
+- Location: Tokyo, Japan
+- Status: completed
+- Description (verbatim): This is the introductory booth for the Suginami Architecture Exhibition, presented at the Suginami Architecture Exhibition 2026.
+- Image directory: images/PJ07_The Suginami Architecture Exhibition Booth 2026/
+- Expected thumbnail file: PJ07_The Suginami Architecture Exhibition Booth 2026_01.jpg (not supplied yet).
+- Default thumbnail selection is _01; no override for PJ07.
+- Sheet assignment: P(7) = floor((7 - 1) / 5) + 1 = 2 (PJ06–PJ10).
+- Without an image, the project record/detail exists but no dummy thumbnail is shown.
