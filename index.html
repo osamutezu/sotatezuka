@@ -271,6 +271,25 @@
 #subpage-chart .sub-chart-content.info-content .contact-row:nth-child(1){grid-row:7}
 #subpage-chart .sub-chart-content.info-content .contact-row:nth-child(2){grid-row:9}
 
+/* ABOUT only: vertically centre the complete biography as one measured block.
+   Each timeline row remains at least one grid cell tall; a wrapped row may
+   grow naturally. The entire resulting block, including its extra line(s),
+   is then centred within the same 15-row frame used by CONTACT. */
+#subpage-chart .sub-chart-content.info-content.about-centered{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:stretch;
+  overflow-y:auto;
+}
+#subpage-chart .sub-chart-content.info-content.about-centered .info-page{
+  flex:0 0 auto;
+  width:100%;
+}
+#subpage-chart .sub-chart-content.info-content.about-centered .about-history{
+  grid-auto-rows:minmax(var(--cell-height),auto);
+}
+
 /* PROJECTS index thumbnails on EVERY sheet (PJ01–05, PJ06–10, ...): monochrome + fine, low-opacity grain.
    Originals and full-size project detail images remain untouched. */
 #subpage-chart .projects-tile img{filter:grayscale(1);}
@@ -871,6 +890,7 @@ window.__siteLetterGlyph=letterGlyph;
   if(route==='projects'||route==='works'){drawProjects();return}
   const source=document.getElementById(route);if(!source){overlay.classList.remove('is-visible');return}
   content.classList.add(source.classList.contains('project-detail')?'detail-content':'info-content');
+  content.classList.toggle('about-centered',route==='about');
   const clone=source.cloneNode(true);clone.removeAttribute('id');clone.classList.add('is-visible');
   // The perimeter supplies the page name; retain project-specific titles.
   content.append(clone);content.scrollTop=0;
