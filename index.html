@@ -233,10 +233,11 @@
 #subpage-chart .projects-tile:focus-visible{outline:2px solid #111;outline-offset:-2px}
 #subpage-chart .projects-tile.no-detail{cursor:default}
 #subpage-chart .project-arrows{position:absolute;left:0;right:0;top:calc(100% + var(--side) / 2);bottom:auto;display:flex;justify-content:space-between;pointer-events:none;z-index:4}
-#subpage-chart .project-arrow{border:0;background:transparent;color:#222;font:24px/1 Arial,sans-serif;cursor:pointer;pointer-events:auto;padding:4px 8px;transform:translate(-50%,-50%)}
+#subpage-chart .project-arrow{border:0;background:transparent;color:#222;cursor:pointer;pointer-events:auto;padding:0;display:flex;align-items:center;justify-content:center;width:var(--side);height:calc(var(--framewidth) / 11);transform:translate(-50%,-50%)}
+#subpage-chart .project-arrow .glyph{display:block;width:44%;height:44%;overflow:visible}
 #subpage-chart .project-arrow.next{transform:translate(50%,-50%)}
 #subpage-chart .project-arrow:disabled{opacity:.3;cursor:default}
-@media(max-width:650px){#subpage-chart .sub-chart-content.info-content{font-size:10px}#subpage-chart .sub-chart-content.detail-content .project-detail h2{font-size:12px}#subpage-chart .sub-chart-content.detail-content .project-meta,#subpage-chart .sub-chart-content.detail-content .project-description{font-size:10px}#subpage-chart .project-arrow{font-size:20px}}
+@media(max-width:650px){#subpage-chart .sub-chart-content.info-content{font-size:10px}#subpage-chart .sub-chart-content.detail-content .project-detail h2{font-size:12px}#subpage-chart .sub-chart-content.detail-content .project-meta,#subpage-chart .sub-chart-content.detail-content .project-description{font-size:10px}#subpage-chart .project-arrow .glyph{width:44%;height:44%}}
 
 /* 2026-11-20: All informational rows are centred on the 15-row lattice. */
 #subpage-chart .chart-frame{--cell-height:calc(100% / 15)}
@@ -636,7 +637,19 @@ window.__siteLetterGlyph=letterGlyph;
  new ResizeObserver(syncCellHeight).observe(frame);
  syncCellHeight();
  const arrowBar=document.createElement('div');arrowBar.className='project-arrows';
- const prev=document.createElement('button'),next=document.createElement('button');prev.className='project-arrow prev';next.className='project-arrow next';prev.textContent='←';next.textContent='→';prev.setAttribute('aria-label','Previous project grid');next.setAttribute('aria-label','Next project grid');
+ const prev=document.createElement('button'),next=document.createElement('button');prev.className='project-arrow prev';next.className='project-arrow next';// Draw arrows as SVG outlines with the same proportions, weight and sizing
+ // system as the Shree Devanagari perimeter glyphs (no Arial fallback).
+ const makeArrowGlyph=(direction)=>{
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg');svg.setAttribute('class','glyph');
+  svg.setAttribute('viewBox','0 0 600 1000');svg.setAttribute('aria-hidden','true');
+  const path=document.createElementNS(ns,'path');
+  path.setAttribute('d',direction==='left'?'M510 500H90M90 500L240 350M90 500L240 650':'M90 500H510M510 500L360 350M510 500L360 650');
+  path.setAttribute('fill','none');path.setAttribute('stroke','currentColor');
+  path.setAttribute('stroke-width','40');path.setAttribute('stroke-linecap','butt');
+  path.setAttribute('stroke-linejoin','miter');svg.append(path);return svg;
+ };
+ prev.append(makeArrowGlyph('left'));next.append(makeArrowGlyph('right'));prev.setAttribute('aria-label','Previous project grid');next.setAttribute('aria-label','Next project grid');
  arrowBar.append(prev,next);shell.append(arrowBar);
  // Place arrow centres at the S and A axes (1/11 and 10/11 of frame width).
  arrowBar.style.left='calc(var(--side) + var(--framewidth) / 11)';arrowBar.style.right='calc(var(--side) + var(--framewidth) / 11)';

@@ -161,3 +161,6 @@ PROJECTS thumbnail: default is image filename ending _01. When the user specifie
 - PROJECTS arrow centres are aligned with top-logo S/A axes (frame width 1/11 and 10/11).
 - The vertical arrow-centre offset below the frame is exactly --side / 2, identical to the lateral perimeter-label centre offset from the frame.
 - Reserve 2*--side + 36px in viewport-height sizing so navigation remains visible.
+
+[2026-11-20 PROJECTS arrows typography]
+PROJECTS page navigation arrows use SVG vector outlines matching the Shree Devanagari perimeter letter system. Their glyph box width and height are each 44% of their perimeter-sized control area, matching .chart-side-char .glyph. Stroke thickness is 40/1000 of the glyph coordinate height, analogous to the existing outline lettering. No Arial or Unicode arrow glyph rendering. Arrow centers retain the S/A logo axes and --side/2 vertical offset.
