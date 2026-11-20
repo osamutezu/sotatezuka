@@ -339,7 +339,7 @@ function renderProjects(images){
     const project=getRegisteredProject(group);
     const preferredNumber=projectThumbnailNumbers[group.key] ?? 1;
      const first=group.photos.find(p=>p.number===preferredNumber) || group.photos.find(p=>p.number===1);
-    const figure=document.createElement('figure');figure.className='item';
+    const figure=document.createElement('figure');figure.className='item';figure.dataset.projectNumber=String(group.projectNumber);
     const surface=document.createElement(project?'a':'div');
     surface.className='image-button';
     if(project){
@@ -630,25 +630,52 @@ window.__siteLetterGlyph=letterGlyph;
  arrowBar.append(prev,next);shell.append(arrowBar);
  // Place arrow centres at the S and A axes (1/11 and 10/11 of frame width).
  arrowBar.style.left='calc(var(--side) + var(--framewidth) / 11)';arrowBar.style.right='calc(var(--side) + var(--framewidth) / 11)';
+ // Project sheet assignment is based on project ID, not packing success or image count.
+ // PJnn belongs to sheet floor((nn - 1) / 5), i.e. PJ01–05, PJ06–10, ... .
+ const PROJECTS_PER_SHEET=5;
+ function projectNumberOf(card){
+  const n=Number(card.dataset.projectNumber);
+  return Number.isInteger(n)&&n>0?n:null;
+ }
+ // The gallery is already sorted by numeric project ID by its source builder.
+ // Map the visible entries by their explicit project number from the registry.
  function packProjects(){
   const cards=[...document.querySelectorAll('#gallery .item')];
-  const sig=cards.map(c=>c.textContent.trim()).join('|')+'|'+cards.length;
+  const sig=cards.map(c=>c.outerHTML).join('|');
   if(sig===signature)return;signature=sig;
-  // Deterministic shuffled candidates: random on reload, stable while paging.
-  const taken=[];pages=[];let current=[];
-  function overlap(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+  const groups=new Map();
   for(const card of cards){
-   let chosen=null;const options=[];
-   for(const [w,h] of [[5,4],[4,5],[4,4],[3,4],[4,3],[3,3],[5,3],[3,5]]){
-    for(let y=0;y<=15-h;y++)for(let x=0;x<=11-w;x++)options.push({x,y,w,h});
-   }
-   for(let i=options.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[options[i],options[j]]=[options[j],options[i]]}
-   chosen=options.find(p=>current.every(q=>!overlap(p,q.rect)));
-   if(!chosen){pages.push(current);current=[];chosen=options[0]}
-   current.push({card,rect:chosen});
+   const n=projectNumberOf(card);
+   if(!Number.isInteger(n)||n<1)continue;
+   const sheet=Math.floor((n-1)/PROJECTS_PER_SHEET);
+   if(!groups.has(sheet))groups.set(sheet,[]);
+   groups.get(sheet).push(card);
   }
-  if(current.length)pages.push(current);
-  if(!pages.length)pages=[[]];page=Math.min(page,pages.length-1);
+  const maxSheet=groups.size?Math.max(...groups.keys()):0;
+  pages=[];
+  function overlap(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+  for(let sheet=0;sheet<=maxSheet;sheet++){
+   const current=[];
+   for(const card of groups.get(sheet)||[]){
+    const options=[];
+    for(const [w,h] of [[5,4],[4,5],[4,4],[3,4],[4,3],[3,3],[5,3],[3,5]]){
+     for(let y=0;y<=15-h;y++)for(let x=0;x<=11-w;x++)options.push({x,y,w,h});
+    }
+    for(let i=options.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[options[i],options[j]]=[options[j],options[i]]}
+    let chosen=options.find(p=>current.every(q=>!overlap(p,q.rect)));
+    // Five 3×3 thumbnails always fit in an 11×15 grid. Never move a project
+    // to a different sheet due to layout collisions.
+    if(!chosen){
+     const fallback=[];
+     for(let y=0;y<=12;y+=3)for(let x=0;x<=8;x+=3)fallback.push({x,y,w:3,h:3});
+     chosen=fallback.find(p=>current.every(q=>!overlap(p,q.rect)));
+    }
+    if(!chosen)throw new Error('Could not place project within its assigned sheet');
+    current.push({card,rect:chosen});
+   }
+   pages.push(current);
+  }
+  page=Math.min(page,pages.length-1);
  }
  function drawProjects(){packProjects();content.replaceChildren();content.className='sub-chart-content projects-content';
   for(const {card,rect:r} of pages[page]){

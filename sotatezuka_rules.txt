@@ -145,3 +145,14 @@ Description: 空欄（ユーザー指定）。Location / Status: 未指定。未
 
 [Thumbnail selection / 2026-11-20]
 PROJECTS thumbnail: default is image filename ending _01. When the user specifies a different photo number for a project, use that numbered image as the thumbnail. PJ06_prototype01 uses _05. If the specified photo is unavailable, temporarily fall back to _01. All images, including _01, remain in the detail gallery in ascending numeric order. The source images and their names are not changed.
+
+[2026-11-20] PROJECTS一覧のページ割当（厳密な定義）
+- 1シートの作品番号範囲は5件分で固定。PJ番号 n は1以上の整数とする。
+- 0始まりのシート番号: p(n) = floor((n - 1) / 5)。
+- 1始まりの表示ページ番号: P(n) = floor((n - 1) / 5) + 1 = ceil(n / 5)。
+- 1始まりのページ k の対象番号範囲: 5(k - 1) + 1 <= n <= 5k。
+- 例: k=1 → PJ01–PJ05、k=2 → PJ06–PJ10、k=3 → PJ11–PJ15。
+- 画像の有無・画像枚数・グリッド上の空き具合はページ割当を変更しない。
+- 各シートのサムネイルは、その範囲に属し、表示可能な画像を持つ作品のみ。未登録番号や画像未提供の作品は空きとして扱い、後続の番号で埋めない。
+- 各画像の四隅はグリッド交点に合わせ、最小3×3セルを維持する。配置できないことを理由に次のページへ繰り越さない。
+- ページ矢印は最初と最後を循環する。作品詳細から戻る場合は直前のシート番号を維持する。
