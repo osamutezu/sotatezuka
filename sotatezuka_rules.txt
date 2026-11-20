@@ -243,3 +243,11 @@ PROJECTS page navigation arrows use SVG vector outlines matching the Shree Devan
 - The chart must not change size or position when navigating between routes at the same viewport size.
 
 【2026-11-20 修復】前回納品HTMLが512KiBで途中切断されていたため、PJ08まで登録済みの完全なHTMLを基礎に画面内フィット用CSSを再適用。全ページの共通ジオメトリと既存データを保持。
+
+
+[2026-11-20 PROJECT DETAIL LATTICE]
+- Each project detail page has no PROJECTS link inside the grid; the left exterior perimeter PROJECTS is the sole return control and retains its gallery sheet context.
+- The 11-column grid cell size is c=frame width/11. Detail text begins at x=1.5c (centre of second column) and must wrap by x=9.5c (centre of second column from the right); available text width = 8c.
+- Detail typography uses uniform line-height c/2, giving two evenly spaced lines per square grid row. Metadata rows are at least one full cell high; wrapped lines use the same c/2 leading.
+- Detail photographs retain natural aspect ratio and have maximum displayed width 8c (thus always <= 9c); no cropping, no upscaling. All images remain full colour, ordered as before.
+- Other pages, project metadata, thumbnail layout and navigation remain unchanged.
